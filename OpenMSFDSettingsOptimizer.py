@@ -89,10 +89,14 @@ def getexpectedfeaturesfromfile(file):
         for row in reader:
             if len(row) < 1:
                 raise ValueError('Empty row is found unexpectedly in "%s"' % file)
-            elif len(row) == 1 or not isnumber(row[1]):
-                result[float(row[0])] = DEFAULT_RT
             else:
-                result[float(row[0])] = float(row[1]) # {mz : rt}
+                current_mass = float(row[0])
+                if current_mass in result:
+                    loginfo('Mass value of %.5f is duplicated.' % current_mass)
+                elif len(row) == 1 or not isnumber(row[1]):
+                    result[current_mass] = DEFAULT_RT
+                else:
+                    result[current_mass] = float(row[1]) # {mz : rt}
 
     loginfo('%d features have been read.\n' % len(result))
     return result
