@@ -24,6 +24,7 @@ CSV_COMMENT_START = '#'
 EXPECTED_FEATURES_FILE_EXT = '.csv'
 WORKFLOW_RESULT_FILE_EXT = '.csv'
 OUTPUT_FILE_NAME = 'output.csv'
+DEFAULT_RT = -1
 
 def loginfo(message):
     print('[%s] %s%s' % (datetime.datetime.now().strftime("%d.%m.%Y %H:%M"), INFO_OUTPUT_PREFIX, message))
@@ -57,10 +58,21 @@ def getstandardfilenames(path):
 
 
 def commentstripper(iterator):
-    """Generator skipping empty lines and lines starting with the comment_start"""
+    """Generator skipping empty lines and lines starting with the comment_start.
+    """
     for line in iterator:
         if line.strip() and not line.startswith(CSV_COMMENT_START):
             yield line
+
+
+def isnumber(s):
+    """Checks if s can be converted to Float.
+    """
+    try:
+        float(s)
+        return True
+    except ValueError:
+        return False
 
 
 def getexpectedfeaturesfromfile(file):
@@ -75,7 +87,12 @@ def getexpectedfeaturesfromfile(file):
     with open(file) as file_with_standards:
         reader = csv.reader(commentstripper(file_with_standards))
         for row in reader:
-            result[float(row[0])] = float(row[1]) # {mz : rt}
+            if len(row) < 1:
+                raise ValueError('Empty row is found unexpectedly in "%s"' % file)
+            elif len(row) == 1 or not isnumber(row[1]):
+                result[float(row[0])] = DEFAULT_RT
+            else:
+                result[float(row[0])] = float(row[1]) # {mz : rt}
 
     loginfo('%d features have been read.\n' % len(result))
     return result
@@ -168,13 +185,16 @@ def calculateproportionofexpectedfeatures(path_to_calculated_features, expected_
                 min_calculated_rt = calculated_features[calculated_mz][0]
                 max_calculated_rt = calculated_features[calculated_mz][1]
 
-                if expected_mz - mzt * ppm <= calculated_mz and calculated_mz <= expected_mz + mzt * ppm: #and min_calculated_rt <= expected_rt and expected_rt <= max_calculated_rt:
+                mz_matched = expected_mz - mzt * ppm <= calculated_mz and calculated_mz <= expected_mz + mzt * ppm
+                rt_matched = expected_rt == DEFAULT_RT or min_calculated_rt <= expected_rt and expected_rt <= max_calculated_rt
+
+                if mz_matched and rt_matched:
                     count_of_matched_features += 1
                     break
 
     loginfo('Total number of detected features is %d.' % total_number_of_features)
-    loginfo('%d out of %d expected features have been detected (%.2f%%).\n' % (count_of_matched_features, count_of_expected_features, 100 * count_of_matched_features / count_of_expected_features))
-    return count_of_matched_features / count_of_expected_features
+    loginfo('%d out of %d expected features have been detected (%.2f%%).\n' % (count_of_matched_features, count_of_expected_features, 100 * float(count_of_matched_features) / count_of_expected_features))
+    return float(count_of_matched_features) / count_of_expected_features
 
 def getpathtoworkflowresults(path_to_workflow_output):
     """Returns a path to a directory containing files produced by the TOPPAS workflow.
@@ -318,7 +338,7 @@ def getworkflowsettings():
     parser.add_argument('--in', type=directorypath, dest='workflow_input_dir', required=True,
                         help='Path to a directory that contains files with centroided LC-MS data along with eponimous CSV-files that include lists of expected features for corresponding files.')
 
-    parser.add_argument('--max_noise', type=nonnegativeinteger, dest='max_noise_level', default=50000000, help='Maximum acceptable value for the noise_threshold_int parameter of the FetureFinderMetabo algorithm.')
+    parser.add_argument('--max_noise', type=nonnegativeinteger, dest='max_noise_level', default=10000000, help='Maximum acceptable value for the noise_threshold_int parameter of the FetureFinderMetabo algorithm.')
     parser.add_argument('--min_noise', type=nonnegativeinteger, dest='min_noise_level', default=0, help='Minimum acceptable value for the noise_threshold_int parameter of FetureFinderMetabo.')
     parser.add_argument('--mzt', type=nonnegativeinteger, dest='mz_tolerance_ppm', default=5, help='MZ tolerance for the feature detection procedure.')
     parser.add_argument('--match', type=featuresproportion, dest='required_expected_features_proportion', default=0.7,
