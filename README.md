@@ -27,6 +27,7 @@ The workflow is performed by [KNIME Analytics Platform](https://www.knime.org/),
   4. Restart KNIME after the installation is finished.
 
 As soon as the steps above are accomplished, your environment is ready to run the workflow.
+
 1. Download the file `LCMS_workflow.zip` from this repository.
 2. In KNIME window, go to `File => Import KNIME Workflow...`. `Workflow Import Selection` dialog should open after this.
 3. Check `Select archive file`, press `Browse...` and specify the path to `LCMS_workflow.zip` downloaded on the 1st step.
