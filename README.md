@@ -1,11 +1,27 @@
 ## <img src="img/workflow.png"/>
 
-This repository contains a complete workflow for LC-MS data analysis from centroided data to spatial mapping of detected molecular features.
+This repository contains a complete workflow for untargeted metabolomics LC-MS data analysis from centroided data to spatial mapping of detected molecular features.
 
 The workflow is being developed by [Alexandrov Team](http://www.embl.de/research/units/scb/alexandrov/index.html) at EMBL Heidelberg ([contact information](http://www.embl.de/research/units/scb/alexandrov/contact/index.html)).
 
 * Developer: Ivan Protsyuk
-* Principal investigator: Theodore Alexandrov 
+* Principal investigator: Theodore Alexandrov
+
+## Who might need this workflow?
+
+The workflow can be useful if you do untargeted metabolomics with LC-MS. Especially when you have many samples, and you try to find out how similar or how different they are in regard to their chemical composition.
+
+## What it does?
+
+The workflow consists of the following steps:
+
+1. Detection of LC-MS features in each input sample.
+2. Alignment and quantification of all detected features among all the samples.
+3. (*Optional*) Exclusion of features that came from blank samples.
+4. (*Optional*) Exclusion of rare features, i.e. features that occur in a small number of samples.
+5. Creating spatial map for detected features, i.e. associating intensities of detected features with spatial coordinates of samples.
+
+The purpose of the last step is to create a file that can be used along with a 2D/3D model for visualization in [`ili](https://chrome.google.com/webstore/detail/%60ili/nhannoeblkmkmljpddfhcfpjlnanfmkc). This is a Google Chrome application for visualization of molecular features spatially distributed. It is also being developed by Alexandrov Team.
 
 ## Installation
 
@@ -49,6 +65,11 @@ Make sure that input files contain centroided data.
 5. Specify `Path to result features`. It will be used for saving quantified LC-MS features detected in all of your samples to a file in CSV format.
 6. Make sure that the node is still selected in the Workflow Editor and press `Execute selected and executable nodes` on the KNIME main toolbar. The workflow should start execution after this.
 7. After it's finished, you can browse through all the features by opening the result file in Excel.
+
+## Known issues
+
+* Sometimes, an error message about `ConcurrentModificationException` appears in the KNIME Console and execution stops. This is caused by an internal KNIME error that occurs upon simultaneous access to a single file by several computational nodes.
+  * Workaround: If it happened, press `Execute selected and executable nodes` on the KNIME main toolbar, and execution will continue from the point where error occurred.
 
 ## License
 
