@@ -19,7 +19,7 @@ The workflow consists of the following steps:
 2. Alignment and quantification of all detected features among all the samples.
 3. (*Optional*) Exclusion of features that came from blank samples.
 4. (*Optional*) Exclusion of rare features, i.e. features that occur in a small number of samples.
-5. Creating spatial map for detected features, i.e. associating intensities of detected features with spatial coordinates of samples.
+5. Creating spatial maps of detected features, i.e. associating intensities of detected features with spatial coordinates of samples.
 
 The purpose of the last step is to create a file that can be used along with a 2D/3D model for visualization in [`ili](https://chrome.google.com/webstore/detail/%60ili/nhannoeblkmkmljpddfhcfpjlnanfmkc). This is a Google Chrome application for visualization of molecular features spatially distributed. It is also being developed by Alexandrov Team.
 
@@ -70,6 +70,59 @@ Make sure that input files contain centroided data.
 
 If you're new to workflow management systems or KNIME in particular, you can find an introductory tutorial on basic features of KNIME [here](./KNIME Basics.md).
 
+## Advanced use-cases
+
+In this section you'll find several improvements of the basic use-case described above. They are not connected with each other, and you can combine them in different ways when using the workflow.
+
+#1. Setting mass deviation and noise level
+
+Depending on your mass spec you should use different settings for feature detection. In particular, you can set allowed mass deviation and intensity of noise signal for your samples.
+
+These parameters can be adjusted at any time before the workflow is launched. To do this, open the configuration dialog for the `Set FD Settings` node. The first two parameters are the needed ones. `mtd_mass_error_ppm` (mass error in ppm using during mass trace detection) should be a known value for your experiment. `common_noise_threshold_int` (intensity of noise signal) affects highly the number of result features produced by the workflow and its run-time. For qTOF mass specs, this value is usually about 1k-5k whereas it's better to keep it about 100k-1000k for Orbitrap devices due to their high sensitivity.
+
+#2. Setting the deviation of retention time
+
+On the quantitation step, special algorithm is working on matching features detected in different samples between each other. If features match, they're reported as the same compound detected in different samples. Matching includes (but not limited to) checking mz and RT values. If you know that there's a significant retention time shift in your samples, you can set a threshold for RT shift at the quantitation step of the workflow. Default value of this parameter is 30 seconds that is usually sufficient. However, it can be changed at any time before the `Align and quantify features` node is running. To do this, open the configuration dialog of the node and set a needed value for `RT deviation`.
+
+#3. Exclusion of features detected in blank samples
+
+If you use this option, all the features detected in some of your samples marked as blank ones will be removed from the result set.
+
+1. Do the first 5 steps of the basic use-case.
+2. Select the `Select blank samples` node and press `Execute selected and executable nodes`. Hold on several seconds until you see a green tick on the node.
+3. Call configuration dialog on the node. It should contain a checklist of all the input files that you provided to the workflow.
+4. Check all the blank samples in the list and press `OK`.
+5. Select the `Exclude features of blank samples and save to file` node and complete the rest of the basic use-case steps starting from the 6th.
+
+#4. Exclusion of uncommon features
+
+This option allows you to remove features that weren't detected in many samples. This can significantly reduce the total number of your features, even if you exclude features that occur in less than 1% of your samples.
+
+1. Do the first 4 steps of the basic use-case. You should see a configuration dialog that contains a parameter called `Include only features with occurance rate more than`.
+2. Set this parameter to a value between `0.0` and `1.0` that means the minimal occurance rate of result features in your samples.
+3. Complete the rest of the basic use-case steps starting from the 5th.
+
+#5. Creating spatial maps for `ili
+
+This option allows you to get files with spatial distribution of detected features that can be visualized in `ili.
+
+1. You should create a *.csv file with spatial coordinates of your samples. There're several requirements to the file formatting.
+  * The file contains 5 columns: sample name, x coordinate, y coordinate, z coordinate, spot radius.
+  * The first line of the file is treated as column headers, you can come up with any names for them.
+  * Values in the 1st column should contain file names corresponding to your samples without extensions, e.g. if your sample is written to a file called "PA14_EM_1-1_E-12_P1-E-12_01_1907.mzXML" a corresponding value in the first column will be "PA14_EM_1-1_E-12_P1-E-12_01_1907".
+  * Coordinates and radii are floating point numbers measured relatively to your 2D/3D model that you're going to use for visualization in `ili.
+  * Coordinates for 2D pictores can be obtained from any image editor that supports displaying position of the cursor.
+  * Coordinates for 3D models can be measured in a 3D model viewer, for example [MeshLab](http://meshlab.sourceforge.net/).
+  * For 2D pictures, the 4th column corresponding to z coordinate should contain zeros only.
+2. Do the first 5 steps of the basic use-case.
+2. Select the `Create input file for 'ili` node and call its configuration dialog.
+3. Specify a path to the file with coorinates at the `File with coordinates of samples` parameter.
+4. Set a path to the result file with spatial maps at `Result file for 'ili`.
+4. Press `OK`.
+5. Select the `Exclude features of blank samples and save to file` node and complete the rest of the basic use-case steps starting from the 6th.
+
+After the workflow is finished, you'll be able to visualize the file specified at the 4th step along with your 2D/3D model in `ili.
+
 ## Known issues
 
 * Sometimes, an error message about `ConcurrentModificationException` appears in the KNIME Console and execution stops. This is caused by an internal KNIME error that occurs upon simultaneous access to a single file by several computational nodes.
@@ -78,3 +131,9 @@ If you're new to workflow management systems or KNIME in particular, you can fin
 ## License
 
 The content of this project is licensed under the Apache 2.0 licence, see LICENSE.md.
+
+
+
+
+
+
