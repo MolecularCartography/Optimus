@@ -74,17 +74,17 @@ If you're new to workflow management systems or KNIME in particular, you can fin
 
 In this section you'll find several improvements of the basic use-case described above. They are not connected with each other, and you can combine them in different ways when using the workflow.
 
-#1. Setting mass deviation and noise level
+###1. Setting mass deviation and noise level
 
 Depending on your mass spec you should use different settings for feature detection. In particular, you can set allowed mass deviation and intensity of noise signal for your samples.
 
 These parameters can be adjusted at any time before the workflow is launched. To do this, open the configuration dialog for the `Set FD Settings` node. The first two parameters are the needed ones. `mtd_mass_error_ppm` (mass error in ppm using during mass trace detection) should be a known value for your experiment. `common_noise_threshold_int` (intensity of noise signal) affects highly the number of result features produced by the workflow and its run-time. For qTOF mass specs, this value is usually about 1k-5k whereas it's better to keep it about 100k-1000k for Orbitrap devices due to their high sensitivity.
 
-#2. Setting the deviation of retention time
+###2. Setting the deviation of retention time
 
 On the quantitation step, special algorithm is working on matching features detected in different samples between each other. If features match, they're reported as the same compound detected in different samples. Matching includes (but not limited to) checking mz and RT values. If you know that there's a significant retention time shift in your samples, you can set a threshold for RT shift at the quantitation step of the workflow. Default value of this parameter is 30 seconds that is usually sufficient. However, it can be changed at any time before the `Align and quantify features` node is running. To do this, open the configuration dialog of the node and set a needed value for `RT deviation`.
 
-#3. Exclusion of features detected in blank samples
+###3. Exclusion of features detected in blank samples
 
 If you use this option, all the features detected in some of your samples marked as blank ones will be removed from the result set.
 
@@ -94,7 +94,7 @@ If you use this option, all the features detected in some of your samples marked
 4. Check all the blank samples in the list and press `OK`.
 5. Select the `Exclude features of blank samples and save to file` node and complete the rest of the basic use-case steps starting from the 6th.
 
-#4. Exclusion of uncommon features
+###4. Exclusion of uncommon features
 
 This option allows you to remove features that weren't detected in many samples. This can significantly reduce the total number of your features, even if you exclude features that occur in less than 1% of your samples.
 
@@ -102,7 +102,7 @@ This option allows you to remove features that weren't detected in many samples.
 2. Set this parameter to a value between `0.0` and `1.0` that means the minimal occurance rate of result features in your samples.
 3. Complete the rest of the basic use-case steps starting from the 5th.
 
-#5. Creating spatial maps for `ili
+###5. Creating spatial maps for `ili
 
 This option allows you to get files with spatial distribution of detected features that can be visualized in `ili.
 

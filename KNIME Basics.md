@@ -6,7 +6,7 @@ If you've already had some experience with other workflow management systems (WM
 
 Below, you can find a tutorial on those KNIME features that you’ll need when using the workflow published at this repository.
 
-#1. Open existing workflow
+###1. Open existing workflow
 
 In KNIME window go to { File => Import KNIME Workflow… }.
 
@@ -27,11 +27,11 @@ Now, the workflow should appear in the "KNIME Explorer" section.
 
 <img src="img/knime_basics_workflow_import_result.png"/>
 
-#2. Change workflow settings
+###2. Change workflow settings
 
 Basically, there’re no settings affecting a whole workflow. Instead, each workflow node has its own set of settings that you can see in a dialog shown upon right-click on the node => "Configure…".
 
-#3. Execute workflow
+###3. Execute workflow
 
 Once you set input files for your workflow, you can process them. There’re two options for this: execution of all the workflow or execution of a part of the workflow.
 * To execute the workflow at once, press "Execute all executable nodes" on the main toolbar.
@@ -41,7 +41,7 @@ There’s also a possibility of cancel a running workflow. To do this, press "Canc
 
 <img src="img/knime_basics_workflow_execution.png"/>
 
-#4. Share your workflow
+###4. Share your workflow
 
 You can save your workflow to a *.zip file and send it to another person afterwards.
 
