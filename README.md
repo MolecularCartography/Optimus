@@ -1,4 +1,24 @@
-## <img src="img/workflow.png"/>
+<img src="img/workflow.png"/>
+
+###Table of contents
+
+* [Introduction](#introduction)
+* [Who might need this workflow?](#who-might-need-this-workflow)
+* [What it does?](#what-it-does)
+* [Installation](#installation)
+* [Input](#input)
+* [Basic use-case](#basic-use-case)
+* [KNIME Basics](#knime-basics)
+* [Advanced use-cases](#advanced-use-cases)
+  * [1. Setting mass deviation and noise level](#1-setting-mass-deviation-and-noise-level)
+  * [2. Setting the deviation of retention time](#2-setting-the-deviation-of-retention-time)
+  * [3. Exclusion of features detected in blank samples](#3-exclusion-of-features-detected-in-blank-samples)
+  * [4. Exclusion of uncommon features](#4-exclusion-of-uncommon-features)
+  * [5. Creating spatial maps for `ili](#5-creating-spatial-maps-for-ili)
+* [Known issues](#known-issues)
+* [License](#license)
+
+## Introduction
 
 This repository contains a complete workflow for untargeted metabolomics LC-MS data analysis from centroided data to spatial mapping of detected molecular features.
 
@@ -70,6 +90,17 @@ Make sure that input files contain centroided data.
 
 If you're new to workflow management systems or KNIME in particular, you can find an introductory tutorial on basic features of KNIME [here](./KNIME Basics.md).
 
+## Demo
+
+This repository contains real samples that you can test the workflow on. They're available in this [archive](./examples/3D/apple_samples.zip). Inside, you'll find a directory called `samples` that contains LC-MS samples in *.mzXML format ready to be processed with the workflow. There's also a `blanks` directory inside `samples`. Its content can be used to remove background features from your result features set. You can find the description on how to do this [below](#3-exclusion-of-features-detected-in-blank-samples).
+There're also 2 files in the root folder called `coords.csv` and `Rotten_Apple_Model.stl`. You'll need to supply them at the last step of the workflow that is supposed to produce spatial maps for `ili.
+
+If you want to quickly check, what are actually the results of the workflow, without diving into KNIME and installing everything, you can find these files in the `results` folder in the archive. It contains two files `features.csv` and `features_mapping.csv`. The first one is a spreadsheet with all the LC-MS features detected and quantified across all the samples. Features from the blank sample are removed from that set. The second file is also a spreadsheet containing a table with intensities of different features detected in different samples. This file is ready to be visualized in `ili along with `Rotten_Apple_Model.stl`. You can just drag&drop both of them to the `ili window.
+
+You can find below an example of a spatial map obtained from `ili for a feature that is localized mainly in the vicinity of rot on the apple.
+
+<img src="img/demo_screenshot.png"/>
+
 ## Advanced use-cases
 
 In this section you'll find several improvements of the basic use-case described above. They are not connected with each other, and you can combine them in different ways when using the workflow.
@@ -106,7 +137,7 @@ This option allows you to remove features that weren't detected in many samples.
 
 This option allows you to get files with spatial distribution of detected features that can be visualized in `ili.
 
-1. You should create a *.csv file with spatial coordinates of your samples. There're several requirements to the file formatting.
+1. You should create a *.csv file with spatial coordinates of your samples. There're several requirements to the file formatting. You can find an example of such a file in the [demo](#demo) section.
   * The file contains 5 columns: sample name, x coordinate, y coordinate, z coordinate, spot radius.
   * The first line of the file is treated as column headers, you can come up with any names for them.
   * Values in the 1st column should contain file names corresponding to your samples without extensions, e.g. if your sample is written to a file called "PA14_EM_1-1_E-12_P1-E-12_01_1907.mzXML" a corresponding value in the first column will be "PA14_EM_1-1_E-12_P1-E-12_01_1907".

@@ -1,3 +1,13 @@
+###Table of contents
+
+* [What's the idea?](#whats-the-idea)
+* [Basic features](#basic-features)
+  * [1. Open existing workflow](#1-open-existing-workflow)
+  * [2. Change workflow settings](#2-change-workflow-settings)
+  * [3. Execute workflow](#3-execute-workflow)
+  * [4. Save intermediate results](#4-save-intermediate-results)
+  * [5. Share your workflow](#5-share-your-workflow)
+
 ## What's the idea?
 
 If you've already had some experience with other workflow management systems (WMS) such as [Galaxy](galaxyproject.org) or [Taverna](www.taverna.org.uk), it'll be easier for you to get started with KNIME. One of the main advantages of using WMSs instead of regular monolothic applications/scripts is that they enable people without skills in programming to actually create programs. Such programs, or workflows, are essentially sets of different operations, or workflow nodes, that are applied consecutively to the input data. One can think about a workflow execution as a flow of the input data through different units that either modify the data or add some new information to it. The programming itself resembles playing with Lego bricks. In this case, bricks are essentially different algorithms that process your data. They’re similar to bricks indeed as WMSs usually have a graphical interface where nodes are represented as rectangles of different colors and can be arranged by a user. After a workflow is built, it can be shared as a file with other people that can run it on their own datasets.
