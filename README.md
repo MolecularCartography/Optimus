@@ -95,7 +95,7 @@ If you're new to workflow management systems or KNIME in particular, you can fin
 This repository contains real samples that you can test the workflow on. They're available in this [archive](./examples/3D/apple_samples.zip). Inside, you'll find a directory called `samples` that contains LC-MS samples in *.mzXML format ready to be processed with the workflow. There's also a `blanks` directory inside `samples`. Its content can be used to remove background features from your result features set. You can find the description on how to do this [below](#3-exclusion-of-features-detected-in-blank-samples).
 There're also 2 files in the root folder called `coords.csv` and `Rotten_Apple_Model.stl`. You'll need to supply them at the last step of the workflow that is supposed to produce spatial maps for `ili.
 
-If you want to quickly check, what are actually the results of the workflow, without diving into KNIME and installing everything, you can find these files in the `results` folder in the archive. It contains two files `features.csv` and `features_mapping.csv`. The first one is a spreadsheet with all the LC-MS features detected and quantified across all the samples. Features from the blank sample are removed from that set. The second file is also a spreadsheet containing a table with intensities of different features detected in different samples. This file is ready to be visualized in `ili along with `Rotten_Apple_Model.stl`. You can just drag&drop both of them to the `ili window.
+If you want to quickly check, what are actually the results of the workflow, without diving into KNIME and installing everything, you can find these files in the `results` folder in the archive. It contains two files `features.csv` and `features_mapping.csv`. The first one is a spreadsheet with all the LC-MS features detected and quantified across all the samples. Features from the blank sample are removed from that set. The second file is also a spreadsheet containing a table with intensities of different features detected in different samples. This file is ready to be visualized in &#96;ili along with `Rotten_Apple_Model.stl`. You can just drag&drop both of them to the `ili window.
 
 You can find below an example of a spatial map obtained from `ili for a feature that is localized mainly in the vicinity of rot on the apple.
 
@@ -162,9 +162,3 @@ After the workflow is finished, you'll be able to visualize the file specified a
 ## License
 
 The content of this project is licensed under the Apache 2.0 licence, see LICENSE.md.
-
-
-
-
-
-
