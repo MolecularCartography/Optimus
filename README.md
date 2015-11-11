@@ -1,3 +1,5 @@
+#OptimusFD: a workflow for LC-MS feature detection and quantification, coupled with `ili
+
 <img src="img/workflow.png"/>
 
 ###Table of contents
