@@ -11,6 +11,7 @@
 * [Input](#input)
 * [Basic use-case](#basic-use-case)
 * [KNIME Basics](#knime-basics)
+* [Demo](#demo)
 * [Advanced use-cases](#advanced-use-cases)
   * [1. Setting mass deviation and noise level](#1-setting-mass-deviation-and-noise-level)
   * [2. Setting the deviation of retention time](#2-setting-the-deviation-of-retention-time)
@@ -64,14 +65,14 @@ The workflow is performed by [KNIME Analytics Platform](https://www.knime.org/),
   3. Proceed with the installation. You'll be asked to accept the terms of GPL license at the end.
   4. Restart KNIME after the installation is finished.
 
-As soon as the steps above are accomplished, your environment is ready to run the workflow.
+Note, that the procedure described above should be completed only **once**. So, if you get a new version of the workflow in the future, all you'll have to do is just to open it with KNIME. As soon as the steps above are accomplished, your environment is ready to run the workflow. 
 
-1. Download the file `LCMS_workflow.zip` from this repository.
-2. In KNIME window, go to `File => Import KNIME Workflow...`. `Workflow Import Selection` dialog should open after this.
-3. Check `Select archive file`, press `Browse...` and specify the path to `LCMS_workflow.zip` downloaded on the 1st step.
+1. Download [a file with the workflow](./LCMS_v_0.1.zip) from this repository.
+2. In the KNIME window, go to `File => Import KNIME Workflow...`. `Workflow Import Selection` dialog should open after this.
+3. Check `Select archive file`, press `Browse...` and specify the path to the file downloaded on the 1st step.
 4. Press `Finish`.
 
-Now you should see the `LCMS_workflow` item in the list at the left-hand side of the KNIME window. If you double click it, the workflow will open in the Workflow Editor where you can change its settings and specify input/output files.
+Now you should see the `LCMS_v_0.1` item in the list at the left-hand side of the KNIME window. If you double click it, the workflow will open in the Workflow Editor where you can change its settings and specify input/output files.
 
 ## Input
 
@@ -119,13 +120,14 @@ On the quantitation step, special algorithm is working on matching features dete
 
 ###3. Exclusion of features detected in blank samples
 
-If you use this option, all the features detected in some of your samples marked as blank ones will be removed from the result set.
+If you use this option, a part of the features detected in your samples marked as blank ones will be removed from the result set.
 
 1. Do the first 5 steps of the basic use-case.
 2. Select the `Select blank samples` node and press `Execute selected and executable nodes`. Hold on several seconds until you see a green tick on the node.
 3. Call configuration dialog on the node. It should contain a checklist of all the input files that you provided to the workflow.
 4. Check all the blank samples in the list and press `OK`.
-5. Select the `Exclude features of blank samples and save to file` node and complete the rest of the basic use-case steps starting from the 6th.
+5. Open the configuration dialog for the `Exclude features of blank samples and save to file` node. There's a parameter called `Minimum intensity ratio for blank features`. It means the following: a feature detected in a blank sample will be included to the result set only if there is at least one non-blank sample, where the intensity of the feature is larger than it is in the blank sample times this parameter. So, the larger value you assign to it, the fewer features from blank samples you see in your results. A default value for this parameter is 3, but you're free to change it. If you set it to zero, all the features detected in blank samples will be included to the result set.
+6. Press `OK` and complete the rest of the basic use-case steps starting from the 6th.
 
 ###4. Exclusion of uncommon features
 
