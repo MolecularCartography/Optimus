@@ -72,7 +72,7 @@ Note, that the procedure described above should be completed only **once**. So, 
 
 1. Download [a file with the workflow](./LCMS_v_0.1.zip) from this repository.
 2. In the KNIME window, go to `File => Import KNIME Workflow...`. `Workflow Import Selection` dialog should open after this.
-3. Check `Select archive file`, press `Browse...` and specify the path to the file downloaded on the 1st step.
+3. Check `Select archive file`, press `Browse...` and select the file downloaded on the 1st step.
 4. Press `Finish`.
 
 Now you should see the `LCMS_v_0.1` item in the list at the left-hand side of the KNIME window. If you double click it, the workflow will open in the Workflow Editor where you can change its settings and specify input/output files.
@@ -88,7 +88,7 @@ Make sure that input files contain centroided data.
 2. Do a right click on the `Input Files` node and select `Configure...`. A dialog for input file selection should show up.
 3. Press `Clear`, then press `Add` and select files with your samples and press `OK`. 
 4. Do a right click on the `Exclude features of blank samples and save to file` node and select `Configure...`. A dialog with settings should show up.
-5. Specify `Path to result features`. It will be used for saving quantified LC-MS features detected in all of your samples to a file in CSV format.
+5. Type `Path to result features`. It will be used for saving quantified LC-MS features detected in all of your samples to a file in CSV format.
 6. Make sure that the node is still selected in the Workflow Editor and press `Execute selected and executable nodes` on the KNIME main toolbar. The workflow should start execution after this.
 7. After it's finished, you can browse through all the features by opening the result file in Excel.
 
@@ -154,7 +154,7 @@ This option allows you to get files with spatial distribution of detected featur
   * For 2D pictures, the 4th column corresponding to z coordinate should contain zeros only.
 2. Do the first 5 steps of the basic use-case.
 2. Select the `Create input file for 'ili` node and call its configuration dialog.
-3. Specify a path to the file with coorinates at the `File with coordinates of samples` parameter.
+3. Type a path to the file with coorinates at the `File with coordinates of samples` parameter.
 4. Set a path to the result file with spatial maps at `Result file for 'ili`.
 4. Press `OK`.
 5. Select the `Exclude features of blank samples and save to file` node and complete the rest of the basic use-case steps starting from the 6th.
