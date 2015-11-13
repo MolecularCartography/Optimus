@@ -11,6 +11,7 @@
 * [Input](#input)
 * [Basic use-case](#basic-use-case)
 * [KNIME Basics](#knime-basics)
+* [Demo](#demo)
 * [Advanced use-cases](#advanced-use-cases)
   * [1. Setting mass deviation and noise level](#1-setting-mass-deviation-and-noise-level)
   * [2. Setting the deviation of retention time](#2-setting-the-deviation-of-retention-time)
@@ -50,10 +51,11 @@ The purpose of the last step is to create a file that can be used along with a 2
 The workflow is performed by [KNIME Analytics Platform](https://www.knime.org/), an open-source cross-platform general-purpose workflow management system. Before you can start using the workflow, you should install **KNIME** itself, **Python 2.7** (if it's not already installed) and a few additional modules for Python and KNIME. The installation steps are described below.
 
 1. Download and install **Python 2.7** if you don't have installed (can be the case on Windows). You can download it from [the official Python Downloads Page](https://www.python.org/downloads/).
-  * You can check easily if the needed Python distribution is already installed by typing `python --version` in your command prompt. If the output line starts with "Python 2.7", you can consider the 0th step completed.
+  * You can check easily if the needed Python distribution is already installed by typing `python --version` in your command prompt. If the output line starts with "Python 2.7", you can consider the 1st step completed.
 2. Install a couple of Python modules needed for interaction between KNIME and Python. You can do this by typing the command below in your command prompt.
   * `pip install pandas protobuf`
-3. Download and install **KNIME Analytics Platform**. Select a package according to your operating system on [the official KNIME Downloads Page](https://www.knime.org/downloads/overview?quicktabs_knimed=1&#knime2.12.1).
+3. Download and install **KNIME Analytics Platform v.2.12.1**. Select a package according to your operating system on [the official KNIME Downloads Page](https://www.knime.org/downloads/overview?quicktabs_knimed=1&#knime2.12.1).
+ * *Note*: If you already have KNIME installed, make sure that its version is 2.12.1. The workflow hasn't been tested with other versions.
 4. Launch KNIME and install additional extensions.
   1. Go to `File => Install KNIME Extensions...`. `Available software` dialog should open after this.
   2. Check the following items in the list of available extensions:
@@ -64,14 +66,16 @@ The workflow is performed by [KNIME Analytics Platform](https://www.knime.org/),
   3. Proceed with the installation. You'll be asked to accept the terms of GPL license at the end.
   4. Restart KNIME after the installation is finished.
 
-As soon as the steps above are accomplished, your environment is ready to run the workflow.
+Note, that the procedure described above should be completed only **once**. So, if you get a new version of the workflow in the future, all you'll have to do is just to open it with KNIME. As soon as the steps above are accomplished, your environment is ready to run the workflow.
 
-1. Download the file `LCMS_workflow.zip` from this repository.
-2. In KNIME window, go to `File => Import KNIME Workflow...`. `Workflow Import Selection` dialog should open after this.
-3. Check `Select archive file`, press `Browse...` and specify the path to `LCMS_workflow.zip` downloaded on the 1st step.
+*Possible Python compatibility issues:* If you have several Python installations in your system, please make sure that KNIME detected the correct one. To do this, go to `File => Preferences`, then type "python" in the filter box. You should see two items at the left-hand side of the dialog: `KNIME > Python`. Click at `Python` and check that there're no error messages appear. If there're any, press `Browse...` and navigate to the python executable that was called when installing modules at the 3rd step. If you followed the instructions above precisely, you can get a path to the needed python executable by executing `which python` in Linux/OS X terminal or `where python` in Windows command prompt.
+
+1. Download [a file with the workflow](./LCMS_v_0.1.zip) from this repository.
+2. In the KNIME window, go to `File => Import KNIME Workflow...`. `Workflow Import Selection` dialog should open after this.
+3. Check `Select archive file`, press `Browse...` and select the file downloaded on the 1st step.
 4. Press `Finish`.
 
-Now you should see the `LCMS_workflow` item in the list at the left-hand side of the KNIME window. If you double click it, the workflow will open in the Workflow Editor where you can change its settings and specify input/output files.
+Now you should see the `LCMS_v_0.1` item in the list at the left-hand side of the KNIME window. If you double click it, the workflow will open in the Workflow Editor where you can change its settings and specify input/output files.
 
 ## Input
 
@@ -82,9 +86,9 @@ Make sure that input files contain centroided data.
 
 1. Open the workflow in the KNIME Workflow Editor.
 2. Do a right click on the `Input Files` node and select `Configure...`. A dialog for input file selection should show up.
-3. Press `Add`, select files with your samples and press `OK`. 
+3. Press `Clear`, then press `Add` and select files with your samples and press `OK`. 
 4. Do a right click on the `Exclude features of blank samples and save to file` node and select `Configure...`. A dialog with settings should show up.
-5. Specify `Path to result features`. It will be used for saving quantified LC-MS features detected in all of your samples to a file in CSV format.
+5. Type `Path to result features`. It will be used for saving quantified LC-MS features detected in all of your samples to a file in CSV format.
 6. Make sure that the node is still selected in the Workflow Editor and press `Execute selected and executable nodes` on the KNIME main toolbar. The workflow should start execution after this.
 7. After it's finished, you can browse through all the features by opening the result file in Excel.
 
@@ -115,17 +119,18 @@ These parameters can be adjusted at any time before the workflow is launched. To
 
 ###2. Setting the deviation of retention time
 
-On the quantitation step, special algorithm is working on matching features detected in different samples between each other. If features match, they're reported as the same compound detected in different samples. Matching includes (but not limited to) checking mz and RT values. If you know that there's a significant retention time shift in your samples, you can set a threshold for RT shift at the quantitation step of the workflow. Default value of this parameter is 30 seconds that is usually sufficient. However, it can be changed at any time before the `Align and quantify features` node is running. To do this, open the configuration dialog of the node and set a needed value for `RT deviation`.
+On the quantification step, special algorithm is working on matching features detected in different samples between each other. If features match, they're reported as the same compound detected in different samples. Matching includes (but not limited to) checking mz and RT values. If you know that there's a significant retention time shift in your samples, you can set a threshold for RT shift at the quantification step of the workflow. Default value of this parameter is 30 seconds that is usually sufficient. However, it can be changed at any time before the `Align and quantify features` node is running. To do this, open the configuration dialog of the node and set a needed value for `RT deviation`.
 
 ###3. Exclusion of features detected in blank samples
 
-If you use this option, all the features detected in some of your samples marked as blank ones will be removed from the result set.
+If you use this option, a part of the features detected in your samples marked as blank ones will be removed from the result set.
 
 1. Do the first 5 steps of the basic use-case.
 2. Select the `Select blank samples` node and press `Execute selected and executable nodes`. Hold on several seconds until you see a green tick on the node.
 3. Call configuration dialog on the node. It should contain a checklist of all the input files that you provided to the workflow.
 4. Check all the blank samples in the list and press `OK`.
-5. Select the `Exclude features of blank samples and save to file` node and complete the rest of the basic use-case steps starting from the 6th.
+5. Open the configuration dialog for the `Exclude features of blank samples and save to file` node. There's a parameter called `Minimum intensity ratio for blank features`. It means the following: a feature detected in a blank sample will be included to the result set only if there is at least one non-blank sample, where the intensity of the feature is larger than it is in the blank sample times this parameter. So, the larger value you assign to it, the fewer features from blank samples you see in your results. A default value for this parameter is 3, but you're free to change it. If you set it to zero, all the features detected in blank samples will be included to the result set.
+6. Press `OK` and complete the rest of the basic use-case steps starting from the 6th.
 
 ###4. Exclusion of uncommon features
 
@@ -149,7 +154,7 @@ This option allows you to get files with spatial distribution of detected featur
   * For 2D pictures, the 4th column corresponding to z coordinate should contain zeros only.
 2. Do the first 5 steps of the basic use-case.
 2. Select the `Create input file for 'ili` node and call its configuration dialog.
-3. Specify a path to the file with coorinates at the `File with coordinates of samples` parameter.
+3. Type a path to the file with coorinates at the `File with coordinates of samples` parameter.
 4. Set a path to the result file with spatial maps at `Result file for 'ili`.
 4. Press `OK`.
 5. Select the `Exclude features of blank samples and save to file` node and complete the rest of the basic use-case steps starting from the 6th.
