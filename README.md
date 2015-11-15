@@ -7,6 +7,7 @@
 * [Introduction](#introduction)
 * [Who might need this workflow?](#who-might-need-this-workflow)
 * [What it does?](#what-it-does)
+* [What it doesn't? (so far)](#what-it-doesnt-so-far)
 * [Installation](#installation)
 * [Input](#input)
 * [Basic use-case](#basic-use-case)
@@ -46,6 +47,10 @@ The workflow consists of the following steps:
 
 The purpose of the last step is to create a file that can be used along with a 2D/3D model for visualization in [`ili](https://chrome.google.com/webstore/detail/%60ili/nhannoeblkmkmljpddfhcfpjlnanfmkc). This is a Google Chrome application for visualization of molecular features spatially distributed. It is also being developed by Alexandrov Team.
 
+## What it doesn't? (so far)
+
+For the time being, the workflow doesn't support compound identification, nor does it allow analyzing MS/MS spectra. These features are planned to be added to the workflow as soon as the existing functionality is tested and approved by the community.
+
 ## Installation
 
 The workflow is performed by [KNIME Analytics Platform](https://www.knime.org/), an open-source cross-platform general-purpose workflow management system. Before you can start using the workflow, you should install **KNIME** itself, **Python 2.7** (if it's not already installed) and a few additional modules for Python and KNIME. The installation steps are described below.
@@ -53,8 +58,9 @@ The workflow is performed by [KNIME Analytics Platform](https://www.knime.org/),
 1. Download and install **Python 2.7** if you don't have installed (can be the case on Windows). You can download it from [the official Python Downloads Page](https://www.python.org/downloads/).
   * You can check easily if the needed Python distribution is already installed by typing `python --version` in your command prompt. If the output line starts with "Python 2.7", you can consider the 1st step completed.
   * *Windows users*: Python installation directory might not be included to your `Path` environment variable. That's why you might get an error message upon executing `python` in command prompt although it's installed. To fix this, you should add <`Python_installation_directory`> to `Path` as well as <`Python_installation_directory\Scripts`>. By default, these directories are `C:\Python27` and `C:\Python27\Scripts`. You can find an instruction on changing `Path` variable [here](http://superuser.com/questions/143119/how-to-add-python-to-the-windows-path).
-2. Install a couple of Python modules needed for interaction between KNIME and Python. You can do this by typing the command below in your command prompt.
+2. Install a couple of Python modules needed for interaction between KNIME and Python. You can do this by typing the command below with administrative privileges in your command prompt.
  * *Windows users*: Before, you should download and install a [Microsoft C++ Complier](http://aka.ms/vcpython27). One of those Python modules depends on it.
+ * *Others*: Before, make sure you have `pip` package manager available on your workstation. If you don't, execute `sudo easy_install pip` in the terminal to install it.
   * `pip install pandas protobuf`
 3. Download and install **KNIME Analytics Platform v.2.12.1**. Select a package according to your operating system on [the official KNIME Downloads Page](https://www.knime.org/downloads/overview?quicktabs_knimed=1&#knime2.12.1).
  * *Note*: If you already have KNIME installed, make sure that its version is 2.12.1. The workflow hasn't been tested with other versions.
@@ -100,7 +106,7 @@ If you're new to workflow management systems or KNIME in particular, you can fin
 
 ## Demo
 
-This repository contains real samples that you can test the workflow on. They're available in this [archive](./examples/3D/apple_samples.zip). Inside, you'll find a directory called `samples` that contains LC-MS samples in *.mzXML format ready to be processed with the workflow. There's also a `blanks` directory inside `samples`. Its content can be used to remove background features from your result features set. You can find the description on how to do this [below](#3-exclusion-of-features-detected-in-blank-samples).
+This repository contains real samples that you can test the workflow on. They're available in this [archive](./examples/3D/apple_samples.zip) (courtesy of Alexey Melnik, Dorrestein Lab, UCSD). Inside, you'll find a directory called `samples` that contains LC-MS samples in *.mzXML format ready to be processed with the workflow. There's also a `blanks` directory inside `samples`. Its content can be used to remove background features from your result features set. You can find the description on how to do this [below](#3-exclusion-of-features-detected-in-blank-samples).
 There're also 2 files in the root folder called `coords.csv` and `Rotten_Apple_Model.stl`. You'll need to supply them at the last step of the workflow that is supposed to produce spatial maps for `ili.
 
 If you want to quickly check, what are actually the results of the workflow, without diving into KNIME and installing everything, you can find these files in the `results` folder in the archive. It contains two files `features.csv` and `features_mapping.csv`. The first one is a spreadsheet with all the LC-MS features detected and quantified across all the samples. Features from the blank sample are removed from that set. The second file is also a spreadsheet containing a table with intensities of different features detected in different samples. This file is ready to be visualized in &#96;ili along with `Rotten_Apple_Model.stl`. You can just drag&drop both of them to the `ili window.
