@@ -11,6 +11,7 @@
 * [Installation](#installation)
 * [Input](#input)
 * [Basic use-case](#basic-use-case)
+* [Output file format](#output-file-format)
 * [KNIME Basics](#knime-basics)
 * [Demo](#demo)
 * [Advanced use-cases](#advanced-use-cases)
@@ -99,6 +100,38 @@ Make sure that input files contain centroided data.
 5. Type `Path to result features`. It will be used for saving quantified LC-MS features detected in all of your samples to a file in CSV format.
 6. Make sure that the node is still selected in the Workflow Editor and press `Execute selected and executable nodes` on the KNIME main toolbar. The workflow should start execution after this.
 7. After it's finished, you can browse through all the features by opening the result file in Excel.
+
+## Output file format
+
+A file with a list of all detected features is an ordinary CSV file that consists of 3 main sections.
+
+The first one is a brief description of the other two sections. It contains several lines starting with `#`.
+
+The main purpose of the second section is to assign ID numbers to feature maps coming from input files. Lines belonging to it start with `MAP`, and the section is always consists of 5 columns.
+
+1. A key-word `MAP` denoting the section.
+2. A non-negative integer that is an identifier of a corresponding feature map.
+3. A path to a file where the feature map is stored. The name of the file without extension (`featureXML`) corresponds to one of the input files.
+4. Empty string.
+5. Number of features in this feature map.
+
+The third columns contains a list of consensus features quantified across all the samples. The number of columns depends on the number of input files. However, it contains an obligatory part that is always present. It's the information about consensus features, and it's written in the first 7 columns.
+
+1. A key-word `CONSENSUS` denoting the section.
+2. Retention time of a consensus feature.
+3. MZ value of a consensus feature.
+4. Intensity of a consensus feature. It's an average value of intensities detected in all the samples.
+5. Charge of a consensus feature.
+6. Width of a consensus feature. Currently, this value is not used.
+7. Quality of a consensus feature. It's a floating point number between 0 and 1 meaning how well features detected in different input samples are represented by the consensus feature. `1` means that the consensus feature matches ideally certain feature in every sample. `0` means that there're samples where the matching feature wasn't found.
+
+The rest of the columns contain information about "real" features matching consensus features. Each sample is represented by 5 columns. Their names, which you can find at the first section of the file in a line starting with `###CONSENSUS#`, end with `_ID` (for example `rt_5`, `mz_5`, `intensity_5`, `charge_5` and `width_5`) where `ID` is one of the numbers listed in the second column of the `MAP` section. You can find the information about features detected in a certain sample by matching IDs to file names in the third column of the `MAP` section. Those 5 columns in the `CONSENSUS` section are analogous to columns 2-6 for consensus features.
+
+1. Retention time of a feature.
+2. MZ value of a feature.
+3. Intensity of a feature.
+4. Charge of a feature. Often this value is 0. It happens when feature detection algorithm can't calculate the charge of a feature based on its isotopic pattern. The majority of other existing algorithms return a default value of `1` in this case.
+5. Width of a feature. Currently, this value is not used.
 
 ## KNIME Basics
 
