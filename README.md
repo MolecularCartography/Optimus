@@ -79,12 +79,12 @@ Note, that the procedure described above should be completed only **once**. So, 
 
 *Possible Python compatibility issues:* If you have several Python installations in your system, please make sure that KNIME detected the correct one. To do this, go to `File => Preferences`, then type "python" in the filter box. You should see two items at the left-hand side of the dialog: `KNIME > Python`. Click at `Python` and check that there're no error messages appear. If there're any, press `Browse...` and navigate to the python executable that was called when installing modules at the 3rd step. If you followed the instructions above precisely, you can get a path to the needed python executable by executing `which python` in Linux/OS X terminal or `where python` in Windows command prompt.
 
-1. Download [a file with the workflow](./LCMS_v_0.1.zip) from this repository.
+1. Download [a file with the workflow](./OptimusFD_v_0.1.zip) from this repository.
 2. In the KNIME window, go to `File => Import KNIME Workflow...`. `Workflow Import Selection` dialog should open after this.
 3. Check `Select archive file`, press `Browse...` and select the file downloaded on the 1st step.
 4. Press `Finish`.
 
-Now you should see the `LCMS_v_0.1` item in the list at the left-hand side of the KNIME window. If you double click it, the workflow will open in the Workflow Editor where you can change its settings and specify input/output files.
+Now you should see the `OptimusFD_v_0.1` item in the list at the left-hand side of the KNIME window. If you double click it, the workflow will open in the Workflow Editor where you can change its settings and specify input/output files.
 
 ## Input
 
