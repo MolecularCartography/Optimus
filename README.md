@@ -25,7 +25,7 @@
 
 ## Introduction
 
-This repository contains a complete workflow for untargeted metabolomics LC-MS data analysis from centroided data to spatial mapping of detected molecular features.
+This repository contains a complete workflow for non-targeted metabolomics LC-MS data analysis from centroided data to spatial mapping of detected molecular features.
 
 The workflow is being developed by [Alexandrov Team](http://www.embl.de/research/units/scb/alexandrov/index.html) at EMBL Heidelberg ([contact information](http://www.embl.de/research/units/scb/alexandrov/contact/index.html)).
 
@@ -34,7 +34,7 @@ The workflow is being developed by [Alexandrov Team](http://www.embl.de/research
 
 ## Who might need this workflow?
 
-The workflow can be useful if you do untargeted metabolomics with LC-MS. Especially when you have many samples, and you try to find out how similar or how different they are in regard to their chemical composition.
+The workflow can be useful if you do non-targeted metabolomics with LC-MS. Especially, when you have many samples, and you try to find out how similar or how different they are in regard to their chemical composition.
 
 ## What it does?
 
@@ -44,7 +44,10 @@ The workflow consists of the following steps:
 2. Alignment and quantification of all detected features among all the samples.
 3. (*Optional*) Exclusion of features that came from blank samples.
 4. (*Optional*) Exclusion of rare features, i.e. features that occur in a small number of samples.
-5. Creating spatial maps of detected features, i.e. associating intensities of detected features with spatial coordinates of samples.
+5. (*Optional*) Exclusion of features that MS/MS spectra weren't collected for, i.e. MS/MS spectra weren't collected within mz-RT ranges defined by the features.
+6. (*Optional*) Exclusion of features that don't match predefined mz-RT values. This is actually the way of going from non-targeted to targeted analysis with the workflow. The output of [GNPS workflow](http://gnps.ucsd.edu/) can be used for this kind of filtering. Another option, is a headerless CSV file that contain mz values in its first column and RT in the second one. Other columns can be present (e.g. compound name), but are ignored by the filtering algorithm. Thereby, this step enables metabolite identification at the level of *putatively annotated compounds*, see [this paper](http://www.gigasciencejournal.com/content/2/1/13) for details.
+7. Creating heat maps of detected features.
+8. Creating spatial maps of detected features, i.e. associating intensities of detected features with spatial coordinates of samples.
 
 The purpose of the last step is to create a file that can be used along with a 2D/3D model for visualization in [`ili](https://chrome.google.com/webstore/detail/%60ili/nhannoeblkmkmljpddfhcfpjlnanfmkc). This is a Google Chrome application for visualization of molecular features spatially distributed. It is also being developed by Alexandrov Team.
 
@@ -96,7 +99,7 @@ Make sure that input files contain centroided data.
 1. Open the workflow in the KNIME Workflow Editor.
 2. Do a right click on the `Input Files` node and select `Configure...`. A dialog for input file selection should show up.
 3. Press `Clear`, then press `Add` and select files with your samples and press `OK`. 
-4. Do a right click on the `Exclude features of blank samples and save to file` node and select `Configure...`. A dialog with settings should show up.
+4. Do a right click on the `Filter features and save to file` node and select `Configure...`. A dialog with settings should show up.
 5. Type `Path to result features`. It will be used for saving quantified LC-MS features detected in all of your samples to a file in CSV format.
 6. Make sure that the node is still selected in the Workflow Editor and press `Execute selected and executable nodes` on the KNIME main toolbar. The workflow should start execution after this.
 7. After it's finished, you can browse through all the features by opening the result file in Excel.
@@ -156,7 +159,7 @@ In this section you'll find several improvements of the basic use-case described
 
 Depending on your mass spec you should use different settings for feature detection. In particular, you can set allowed mass deviation and intensity of noise signal for your samples.
 
-These parameters can be adjusted at any time before the workflow is launched. To do this, open the configuration dialog for the `Set FD Settings` node. The first two parameters are the needed ones. `mtd_mass_error_ppm` (mass error in ppm using during mass trace detection) should be a known value for your experiment. `common_noise_threshold_int` (intensity of noise signal) affects highly the number of result features produced by the workflow and its run-time. For qTOF mass specs, this value is usually about 1k-5k whereas it's better to keep it about 100k-1000k for Orbitrap devices due to their high sensitivity.
+These parameters can be adjusted at any time before the workflow is launched. To do this, open the configuration dialog for the `Set FD Settings` node. The first two parameters are the needed ones. `Allowed mass deviation (ppm)` (mass error in ppm using during mass trace detection) should be a known value for your experiment. `Noise threshold intensity` (intensity of noise signal) affects highly the number of result features produced by the workflow and its run-time. For qTOF mass specs, this value is usually about 1k-5k whereas it's better to keep it about 100k-1000k for Orbitrap devices due to their high sensitivity.
 
 ###2. Setting the deviation of retention time
 
@@ -170,14 +173,14 @@ If you use this option, a part of the features detected in your samples marked a
 2. Select the `Select blank samples` node and press `Execute selected and executable nodes`. Hold on several seconds until you see a green tick on the node.
 3. Call configuration dialog on the node. It should contain a checklist of all the input files that you provided to the workflow.
 4. Check all the blank samples in the list and press `OK`.
-5. Open the configuration dialog for the `Exclude features of blank samples and save to file` node. There's a parameter called `Minimum intensity ratio for blank features`. It means the following: a feature detected in a blank sample will be included to the result set only if there is at least one non-blank sample, where the intensity of the feature is larger than it is in the blank sample times this parameter. So, the larger value you assign to it, the fewer features from blank samples you see in your results. A default value for this parameter is 3, but you're free to change it. If you set it to zero, all the features detected in blank samples will be included to the result set.
+5. Open the configuration dialog for the `Filter features and save to file` node. There's a parameter called `Minimum intensity ratio for blank features`. It means the following: a feature detected in a blank sample will be included to the result set only if there is at least one non-blank sample, where the intensity of the feature is larger than it is in the blank sample times this parameter. So, the larger value you assign to it, the fewer features from blank samples you see in your results. A default value for this parameter is 3, but you're free to change it. If you set it to zero, all the features detected in blank samples will be included to the result set.
 6. Press `OK` and complete the rest of the basic use-case steps starting from the 6th.
 
 ###4. Exclusion of uncommon features
 
 This option allows you to remove features that weren't detected in many samples. This can significantly reduce the total number of your features, even if you exclude features that occur in less than 1% of your samples.
 
-1. Do the first 4 steps of the basic use-case. You should see a configuration dialog that contains a parameter called `Include only features with occurance rate more than`.
+1. Do the first 4 steps of the basic use-case. You should see a configuration dialog that contains a parameter called `Include only features with occurance rate at least`.
 2. Set this parameter to a value between `0.0` and `1.0` that means the minimal occurance rate of result features in your samples.
 3. Complete the rest of the basic use-case steps starting from the 5th.
 
@@ -198,7 +201,7 @@ This option allows you to get files with spatial distribution of detected featur
 3. Type a path to the file with coorinates at the `File with coordinates of samples` parameter.
 4. Set a path to the result file with spatial maps at `Result file for 'ili`.
 4. Press `OK`.
-5. Select the `Exclude features of blank samples and save to file` node and complete the rest of the basic use-case steps starting from the 6th.
+5. Select the `Filter features and save to file` node and complete the rest of the basic use-case steps starting from the 6th.
 
 After the workflow is finished, you'll be able to visualize the file specified at the 4th step along with your 2D/3D model in `ili.
 
