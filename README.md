@@ -66,8 +66,8 @@ The workflow is performed by [KNIME Analytics Platform](https://www.knime.org/),
  * *Windows users*: Before, you should download and install a [Microsoft C++ Complier](http://aka.ms/vcpython27). One of those Python modules depends on it.
  * *Others*: Before, make sure you have `pip` package manager available on your workstation. If you don't, execute `sudo easy_install pip` in the terminal to install it.
   * `pip install pandas protobuf pymzml`
-3. Download and install **KNIME Analytics Platform v.2.12.1**. Select a package according to your operating system on [the official KNIME Downloads Page](https://www.knime.org/downloads/overview?quicktabs_knimed=1&#knime2.12.1).
- * *Note*: If you already have KNIME installed, make sure that its version is 2.12.1. The workflow hasn't been tested with other versions.
+3. Download and install **KNIME Analytics Platform v.2.12**. Select a package according to your operating system on [the official KNIME Downloads Page](https://www.knime.org/downloads/overview?quicktabs_knimed=1&#knime2.12.2).
+ * *Note*: If you already have KNIME installed, make sure that its version is 2.12.*. The workflow hasn't been tested with other versions.
 4. Launch KNIME and install additional extensions.
   1. Go to `File => Install KNIME Extensions...`. `Available software` dialog should open after this.
   2. Check the following items in the list of available extensions:
