@@ -1,4 +1,4 @@
-#OptimusFD: a workflow for LC-MS feature detection and quantification, coupled with `ili
+#OptimusFD: a workflow for LC-MS feature detection, quantification and spatial mapping
 
 <img src="img/workflow.png"/>
 
@@ -9,6 +9,8 @@
 * [What it does?](#what-it-does)
 * [What it doesn't? (so far)](#what-it-doesnt-so-far)
 * [Installation](#installation)
+  * [KNIME and Python](#knime-and-python)
+  * [Installing and updating workflow](#installing-and-updating-workflow)
 * [Input](#input)
 * [Basic use-case](#basic-use-case)
 * [Output file format](#output-file-format)
@@ -59,6 +61,8 @@ For the time being, the workflow doesn't support compound identification, nor do
 
 The workflow is performed by [KNIME Analytics Platform](https://www.knime.org/), an open-source cross-platform general-purpose workflow management system. Before you can start using the workflow, you should install **KNIME** itself, **Python 2.7** (if it's not already installed) and a few additional modules for Python and KNIME. The installation steps are described below.
 
+### KNIME and Python
+
 1. Download and install **Python 2.7** if you don't have installed (can be the case on Windows). You can download it from [the official Python Downloads Page](https://www.python.org/downloads/).
   * You can check easily if the needed Python distribution is already installed by typing `python --version` in your command prompt. If the output line starts with "Python 2.7", you can consider the 1st step completed.
   * *Windows users*: Python installation directory might not be included to your `Path` environment variable. That's why you might get an error message upon executing `python` in command prompt although it's installed. To fix this, you should add <`Python_installation_directory`> to `Path` as well as <`Python_installation_directory\Scripts`>. By default, these directories are `C:\Python27` and `C:\Python27\Scripts`. You can find an instruction on changing `Path` variable [here](http://superuser.com/questions/143119/how-to-add-python-to-the-windows-path).
@@ -75,6 +79,7 @@ The workflow is performed by [KNIME Analytics Platform](https://www.knime.org/),
     * `KNIME Python Integration`
     * `KNIME Nodes to create KNIME Quick Forms`
     * `KNIME Virtual Nodes`
+    * `KNIME JFreeChart`
   3. Proceed with the installation. You'll be asked to accept the terms of GPL license at the end.
   4. Restart KNIME after the installation is finished.
 
@@ -82,12 +87,16 @@ Note, that the procedure described above should be completed only **once**. So, 
 
 *Possible Python compatibility issues:* If you have several Python installations in your system, please make sure that KNIME detected the correct one. To do this, go to `File => Preferences`, then type "python" in the filter box. You should see two items at the left-hand side of the dialog: `KNIME > Python`. Click at `Python` and check that there're no error messages appear. If there're any, press `Browse...` and navigate to the python executable that was called when installing modules at the 3rd step. If you followed the instructions above precisely, you can get a path to the needed python executable by executing `which python` in Linux/OS X terminal or `where python` in Windows command prompt.
 
+### Installing and updating workflow
+
 1. Download [a file with the workflow](./OptimusFD_v_0.1.zip) from this repository.
 2. In the KNIME window, go to `File => Import KNIME Workflow...`. `Workflow Import Selection` dialog should open after this.
 3. Check `Select archive file`, press `Browse...` and select the file downloaded on the 1st step.
 4. Press `Finish`.
 
 Now you should see the `OptimusFD_v_0.1` item in the list at the left-hand side of the KNIME window. If you double click it, the workflow will open in the Workflow Editor where you can change its settings and specify input/output files.
+
+For now, new versions of the workflow are uploaded to this repository replacing the previous one. In order to update the workflow on your local computer to a newer version, repeat the steps above.
 
 ## Input
 
