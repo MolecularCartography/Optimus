@@ -1,13 +1,13 @@
-#OptimusFD: a workflow for LC-MS feature detection, quantification and spatial mapping
+#Optimus: a workflow for LC-MS feature detection, quantification and spatial mapping
 
 <img src="img/workflow.png"/>
 
 ###Table of contents
 
 * [Introduction](#introduction)
-* [Who might need this workflow?](#who-might-need-this-workflow)
+* [Who might need this workflow?](#who-needs-this-workflow)
 * [What it does?](#what-it-does)
-* [What it doesn't? (so far)](#what-it-doesnt-so-far)
+* [What it doesn't do? (so far)](#what-it-doesnt-do-so-far)
 * [Installation](#installation)
   * [KNIME and Python](#knime-and-python)
   * [Installing and updating workflow](#installing-and-updating-workflow)
@@ -27,35 +27,33 @@
 
 ## Introduction
 
-This repository contains a complete workflow for non-targeted metabolomics LC-MS data analysis from centroided data to spatial mapping of detected molecular features.
+This repository contains a workflow for LC-MS-based untargeted metabolomics. The workflow can be used for feature detection, quantification, reduction of number of features by removing those from blanks/control samples and by using other filters, and mz-rt matching and finally for spatial mapping of detected molecular features in 2D and 3D using the [`ili app](https://github.com/ili-toolbox/ili). It uses the state-of-the-art feature detection algorithms from [OpenMS](http://www.openms.de) which are put into a workflow using a modern workflow manager software [KNIME](https://www.knime.org) with additional features implemented by us.
 
 The workflow is being developed by [Alexandrov Team](http://www.embl.de/research/units/scb/alexandrov/index.html) at EMBL Heidelberg ([contact information](http://www.embl.de/research/units/scb/alexandrov/contact/index.html)).
 
 * Developer: Ivan Protsyuk
 * Principal investigator: Theodore Alexandrov
 
-## Who might need this workflow?
+## Who needs this workflow?
 
-The workflow can be useful if you do non-targeted metabolomics with LC-MS. Especially, when you have many samples, and you try to find out how similar or how different they are in regard to their chemical composition.
+The workflow is developed for spatial mapping but can be useful in almost any study of LC-MS-based untargeted metabolomics. It is developed to be open-source, sharable, and efficient enough to process hundreds of LC-MS runs. 
 
 ## What it does?
 
 The workflow consists of the following steps:
 
-1. Detection of LC-MS features in each input sample.
+1. Detection of LC-MS features in each sample.
 2. Alignment and quantification of all detected features among all the samples.
-3. (*Optional*) Exclusion of features that came from blank samples.
-4. (*Optional*) Exclusion of rare features, i.e. features that occur in a small number of samples.
-5. (*Optional*) Exclusion of features that MS/MS spectra weren't collected for, i.e. MS/MS spectra weren't collected within mz-RT ranges defined by the features.
-6. (*Optional*) Exclusion of features that don't match predefined mz-RT values. This is actually the way of going from non-targeted to targeted analysis with the workflow. The output of [GNPS workflow](http://gnps.ucsd.edu/) can be used for this kind of filtering. Another option, is a headerless CSV file that contain mz values in its first column and RT in the second one. Other columns can be present (e.g. compound name), but are ignored by the filtering algorithm. Thereby, this step enables metabolite identification at the level of *putatively annotated compounds*, see [this paper](http://www.gigasciencejournal.com/content/2/1/13) for details.
-7. Creating heat maps of detected features.
-8. Creating spatial maps of detected features, i.e. associating intensities of detected features with spatial coordinates of samples.
+3. (*Optional*) Exclusion of features that came from blank/control samples.
+4. (*Optional*) Exclusion of rare features, i.e. features that occur in a small number of samples only.
+5. (*Optional*) Exclusion of features for which MS/MS spectra were not collected.
+6. (*Optional*) Putative molecular annotation of detected features by mz-RT matching to a list of molecules of interest. This implements a molecular identification at the level *putatively annotated compounds*, corresponding to the level 2 according to the Metabolomics Standards Initiative; see [Sumner et al. (2007) Metabolomics, 3(3), 211-221](http://link.springer.com/article/10.1007%2Fs11306-007-0082-2) for details. Note that MS/MS validation of putative annotations is needed (currently not provided in Optimus). The list of molecules of interest can be directly exported from [GNPS](http://gnps.ucsd.edu/) as a result of MS/MS matching against any spectral library at GNPS. Alternatively, a CSV file can be provided with m/z values (first column) and RT (second column). Other columns can contain compound name or other information but are ignored by the matching algorithm. 
+7. Creating a heat map of intensities of detected features across all samples.
+8. Creating spatial maps of detected features in the [`ili app](https://github.com/ili-toolbox/ili). The workflow creates a file that can be loaded into \`ili along with an image or 3D model for visualization in [`ili app](https://github.com/ili-toolbox/ili). \`ili app a Google Chrome application for interactive visualization of spatial data mapped either on an image or a 3D model, also developed by Alexandrov Team.
 
-The purpose of the last step is to create a file that can be used along with a 2D/3D model for visualization in [`ili](https://chrome.google.com/webstore/detail/%60ili/nhannoeblkmkmljpddfhcfpjlnanfmkc). This is a Google Chrome application for visualization of molecular features spatially distributed. It is also being developed by Alexandrov Team.
+## What it doesn't do? (so far)
 
-## What it doesn't? (so far)
-
-For the time being, the workflow doesn't support compound identification, nor does it allow analyzing MS/MS spectra. These features are planned to be added to the workflow as soon as the existing functionality is tested and approved by the community.
+The workflow doesn't support MS/MS-based metabolite identification. We are working on it.
 
 ## Installation
 
