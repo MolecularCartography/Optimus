@@ -49,7 +49,7 @@ The workflow consists of the following steps:
 5. (*Optional*) Exclusion of features for which MS/MS spectra were not collected.
 6. (*Optional*) Putative molecular annotation of detected features by mz-RT matching to a list of molecules of interest. This implements a molecular identification at the level *putatively annotated compounds*, corresponding to the level 2 according to the Metabolomics Standards Initiative; see [Sumner et al. (2007) Metabolomics, 3(3), 211-221](http://link.springer.com/article/10.1007%2Fs11306-007-0082-2) for details. Note that MS/MS validation of putative annotations is needed (currently not provided in Optimus). The list of molecules of interest can be directly exported from [GNPS](http://gnps.ucsd.edu/) as a result of MS/MS matching against any spectral library at GNPS. Alternatively, a CSV file can be provided with m/z values (first column) and RT (second column). Other columns can contain compound name or other information but are ignored by the matching algorithm. 
 7. Creating a heat map of intensities of detected features across all samples.
-8. Creating spatial maps of detected features in the [`ili app](https://github.com/ili-toolbox/ili). The workflow creates a file that can be loaded into \`ili along with an image or 3D model for visualization in [`ili app](https://github.com/ili-toolbox/ili). \`ili app a Google Chrome application for interactive visualization of spatial data mapped either on an image or a 3D model, also developed by Alexandrov Team.
+8. Creating spatial maps of detected features in the [`ili app](https://github.com/ili-toolbox/ili). The workflow creates a file that can be loaded into \`ili along with an image or 3D model for visualization in [`ili app](https://github.com/ili-toolbox/ili). \`ili app is a Google Chrome application for interactive visualization of spatial data mapped either on an image or a 3D model, also developed by Alexandrov Team.
 
 ## What it doesn't do? (so far)
 
@@ -77,7 +77,7 @@ The workflow is performed by [KNIME Analytics Platform](https://www.knime.org/),
     * `KNIME Python Integration`
     * `KNIME Nodes to create KNIME Quick Forms`
     * `KNIME Virtual Nodes`
-    * `KNIME JFreeChart`
+    * `KNIME JavaScript based nodes`
   3. Proceed with the installation. You'll be asked to accept the terms of GPL license at the end.
   4. Restart KNIME after the installation is finished.
 
@@ -87,9 +87,10 @@ Note, that the procedure described above should be completed only **once**. So, 
 
 ### Installing and updating workflow
 
-1. Download [a file with the workflow](./OptimusFD_v_0.1.zip) from this repository.
+1. Download [a file with the workflow](./Optimus_v_0.1.zip) from this repository.
 2. In the KNIME window, go to `File => Import KNIME Workflow...`. `Workflow Import Selection` dialog should open after this.
-3. Check `Select archive file`, press `Browse...` and select the file downloaded on the 1st step.
+3. Check `Select archive file`, press `Browse...` and select the file downloaded at the 1st step.
+  * *Note*: some web-browsers, like Safari, unzip archives automatically after downloading. In this case you'll find a new folder in your "Downloads" folder instead of a zip file. In this case check `Select root directory` in the import dialog, press `Browse...` and select the directory downloaded at the 1st step.
 4. Press `Finish`.
 
 Now you should see the `OptimusFD_v_0.1` item in the list at the left-hand side of the KNIME window. If you double click it, the workflow will open in the Workflow Editor where you can change its settings and specify input/output files.
@@ -204,9 +205,8 @@ This option allows you to get files with spatial distribution of detected featur
   * Coordinates for 3D models can be measured in a 3D model viewer, for example [MeshLab](http://meshlab.sourceforge.net/).
   * For 2D pictures, the 4th column corresponding to z coordinate should contain zeros only.
 2. Do the first 5 steps of the basic use-case.
-2. Select the `Create input file for 'ili` node and call its configuration dialog.
-3. Type a path to the file with coorinates at the `File with coordinates of samples` parameter.
-4. Set a path to the result file with spatial maps at `Result file for 'ili`.
+2. Select the `Read file with coordinates of samples` node and call its configuration dialog.
+3. Click `Browse...` and specify a path to a file with coorinates.
 4. Press `OK`.
 5. Select the `Filter features and save to file` node and complete the rest of the basic use-case steps starting from the 6th.
 
@@ -214,9 +214,14 @@ After the workflow is finished, you'll be able to visualize the file specified a
 
 ## Known issues
 
-* Sometimes, an error message about `ConcurrentModificationException` appears in the KNIME Console and execution stops. This is caused by an internal KNIME error that occurs upon simultaneous access to a single file by several computational nodes.
-  * Workaround: If it happened, press `Execute selected and executable nodes` on the KNIME main toolbar, and execution will continue from the point where error occurred.
-
+Some errors can appear in the application log that interrupt workflow execution. A node caused the error will be highlighted with an exclamation mark below it. It can happen from time to time depending on the environment at your workstation. Below, you can find a few known errors and workarounds for them.
+* An error message about `ConcurrentModificationException` is caused by an internal KNIME error that occurs upon simultaneous access to a single file by several computational nodes.
+  * Workaround: if it happened, press `Execute selected and executable nodes` on the KNIME main toolbar, and execution will continue from the point where error occurred.
+* `Execute failed: java.lang.NullPointerException` seems like an internal KNIME error.
+  * Workaround: Reset a node that produced the error (with right-click menu or `F8` key) and execute it again.
+* `Execute failed: Not all chunks finished - check individual chunk branches for details` also caused by malfunctioning during  multithreaded execution of some nodes.
+  * Workaround: Re-execute a node that produced the error.
+ 
 ## License
 
 The content of this project is licensed under the Apache 2.0 licence, see LICENSE.md.
