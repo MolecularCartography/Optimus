@@ -67,10 +67,11 @@ The workflow is performed by [KNIME Analytics Platform](https://www.knime.org/),
 2. Install a couple of Python modules needed for interaction between KNIME and Python. You can do this by typing the command below with administrative privileges in your command prompt.
  * *Windows users*: Before, you should download and install a [Microsoft C++ Complier](http://aka.ms/vcpython27). One of those Python modules depends on it.
  * *Others*: Before, make sure you have `pip` package manager available on your workstation. If you don't, execute `sudo easy_install pip` in the terminal to install it.
-  * `pip install six pandas protobuf pymzml`
-3. Download and install **KNIME Analytics Platform v.2.12**. Select a package according to your operating system on [the official KNIME Downloads Page](https://www.knime.org/downloads/previous). Scroll the page down to find a heading `KNIME version 2.12.2`.
+  * `pip install six pandas protobuf`
+3. Install `pyopenms` Python module which is used by Optimus internally for retrieval of spectral information from input samples. In order to do this, visit official [pyopenms downloads page](https://pypi.python.org/pypi/pyopenms), scroll down to the list of available versions and download a package that corresponds to your operating system. Afterwards, execute the following command in command prompt to install `pyopenms`: `pip install <path_to_downloaded_package>`
+4. Download and install **KNIME Analytics Platform v.2.12**. Select a package according to your operating system on [the official KNIME Downloads Page](https://www.knime.org/downloads/previous). Scroll the page down to find a heading `KNIME version 2.12.2`.
  * *Note*: If you already have KNIME installed, make sure that its version is 2.12.*. The workflow hasn't been tested with other versions.
-4. Launch KNIME and install additional extensions.
+5. Launch KNIME and install additional extensions.
   1. Go to `File => Install KNIME Extensions...`. `Available software` dialog should open after this.
   2. Check the following items in the list of available extensions:
     * `OpenMS`
