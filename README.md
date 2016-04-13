@@ -61,13 +61,13 @@ The workflow is performed by [KNIME Analytics Platform](https://www.knime.org/),
 
 ### KNIME and Python
 
-1. Download and install **Python 2.7** if you don't have installed (can be the case on Windows). You can download it from [the official Python Downloads Page](https://www.python.org/downloads/).
+1. Download and install **Python 2.7 64-bit** if you don't have installed (it can be the case on Windows). You can download it from [the official Python Downloads Page](https://www.python.org/downloads/).
   * You can check easily if the needed Python distribution is already installed by typing `python --version` in your command prompt. If the output line starts with "Python 2.7", you can consider the 1st step completed.
   * *Windows users*: Python installation directory might not be included to your `Path` environment variable. That's why you might get an error message upon executing `python` in command prompt although it's installed. To fix this, you should add <`Python_installation_directory`> to `Path` as well as <`Python_installation_directory\Scripts`>. By default, these directories are `C:\Python27` and `C:\Python27\Scripts`. You can find an instruction on changing `Path` variable [here](http://superuser.com/questions/143119/how-to-add-python-to-the-windows-path).
 2. Install a couple of Python modules needed for interaction between KNIME and Python. You can do this by typing the command below with administrative privileges in your command prompt.
  * *Windows users*: Before, you should download and install a [Microsoft C++ Complier](http://aka.ms/vcpython27). One of those Python modules depends on it.
  * *Others*: Before, make sure you have `pip` package manager available on your workstation. If you don't, execute `sudo easy_install pip` in the terminal to install it.
-  * `pip install six pandas protobuf`
+  * `pip install lxml six pandas protobuf`
 3. Install `pyopenms` Python module which is used by Optimus internally for retrieval of spectral information from input samples. In order to do this, visit official [pyopenms downloads page](https://pypi.python.org/pypi/pyopenms), scroll down to the list of available versions and download a package that corresponds to your operating system. Afterwards, execute the following command in command prompt to install `pyopenms`: `pip install <path_to_downloaded_package>`
 4. Download and install **KNIME Analytics Platform v.2.12**. Select a package according to your operating system on [the official KNIME Downloads Page](https://www.knime.org/downloads/previous). Scroll the page down to find a heading `KNIME version 2.12.2`.
  * *Note*: If you already have KNIME installed, make sure that its version is 2.12.*. The workflow hasn't been tested with other versions.
