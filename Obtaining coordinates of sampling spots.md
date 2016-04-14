@@ -2,7 +2,7 @@
 
 First of all, you need to settle upon a type of visualization you want to achieve. Namely, sampling spots can be rendered onto a picture or 3D model. Below you will find a manual for these two cases.
 
-**A common remark:** on this page "sample name" means a file name without extension where spectral information about an LC-MS sample is stored. E.g. if you have a file with LC-MS called `PA14_EM_3-1_D-6_P1-D-6_01_2738.mzML`, a corresponding sample name will be `PA14_EM_3-1_D-6_P1-D-6_01_2738`.
+**A common remark:** on this page "sample name" means a file name without extension where spectral information about an LC-MS sample is stored. E.g. if you have a file with LC-MS called `PA14_EM_D-6_2738.mzML`, a corresponding sample name will be `PA14_EM_D-6_2738`.
 
 ## 2D
 
@@ -12,6 +12,9 @@ First of all, you need to settle upon a type of visualization you want to achiev
 4. Fill in the fourth column with zeros. As you are going to render your sampling points onto a 2D image, the 3rd coordinate component is not used.
 5. Open an image you are going to use for visualization in an image viewer application that is capable of displaying a cursor position in the coordinate system of an image. E.g. Paint suits this task on Windows.
 6. For each sample, fill in the second and third columns with `x` and `y` coordinates of a sample you see in the image viewer when hovering cursor over a point where the sample is located.
+
+<img src="img/obtaining_coordinates_paint.png"/>
+
 7. Fill in the fifth column with approximate values of radii of sampling points. You can do it using your image viewer to estimate, for example, half of a difference between boundaries of a sampling point in a horizontal or vertical dimension.
   * No need in high precision at this stage because you will be able to change the file later after you see the first visualization.
 8. Save the spreadsheet as a CSV file.
@@ -22,6 +25,9 @@ First of all, you need to settle upon a type of visualization you want to achiev
 2. Launch Meshlab, go to `File => Import mesh...` and select a file with your 3D model. 
 3. After the model has shown up, call a dialog for point selection using `Edit => PickPoints`.
 4. Select all sampling points on the 3D model one by one using mouse right click. Note, that, once selected, points appear in the dialog you opened at the previous step. Also, you will need to assign names to selected points that should correspond to names of your samples. To change a name of a point double-click on the corresponding item in the dialog and type a new name.
+
+<img src="img/obtaining_coordinates_meshlab.png"/>
+
 5. After all points are selected and names of your samples are assigned to them, you need to click "Save" in the dialog and select a result file.
 6. Download and open in KNIME [a workflow](./PP2CSV Conversion.zip) for conversion of files produced by Meshlab to CSV files compatible with Optimus.
 7. Select a path to an output CSV file in the configuration of `Save output file` node.
