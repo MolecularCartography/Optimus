@@ -197,14 +197,7 @@ This option allows you to remove features that weren't detected in many samples.
 
 This option allows you to get files with spatial distribution of detected features that can be visualized in `ili.
 
-1. You should create a *.csv file with spatial coordinates of your samples. There're several requirements to the file formatting. You can find an example of such a file in the [demo](#demo) section.
-  * The file contains 5 columns: sample name, x coordinate, y coordinate, z coordinate, spot radius.
-  * The first line of the file is treated as column headers, you can come up with any names for them.
-  * Values in the 1st column should contain file names corresponding to your samples without extensions, e.g. if your sample is written to a file called "PA14_EM_1-1_E-12_P1-E-12_01_1907.mzXML" a corresponding value in the first column will be "PA14_EM_1-1_E-12_P1-E-12_01_1907".
-  * Coordinates and radii are floating point numbers measured relatively to your 2D/3D model that you're going to use for visualization in `ili.
-  * Coordinates for 2D pictores can be obtained from any image editor that supports displaying position of the cursor.
-  * Coordinates for 3D models can be measured in a 3D model viewer, for example [MeshLab](http://meshlab.sourceforge.net/).
-  * For 2D pictures, the 4th column corresponding to z coordinate should contain zeros only.
+1. You need to create a *.csv file with spatial coordinates of your samples. Please follow the steps described in [this manual](./Obtaining coordinates of sampling spots.md) to do it.
 2. Do the first 5 steps of the basic use-case.
 2. Select the `Read file with coordinates of samples` node and call its configuration dialog.
 3. Click `Browse...` and specify a path to a file with coorinates.
