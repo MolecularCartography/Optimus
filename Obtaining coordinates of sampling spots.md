@@ -29,7 +29,16 @@ First of all, you need to settle upon a type of visualization you want to achiev
 <img src="img/obtaining_coordinates_meshlab.png"/>
 
 5. After all points are selected and names of your samples are assigned to them, you need to click "Save" in the dialog and select a result file.
-6. Download and open in KNIME [a workflow](./PP2CSV Conversion.zip) for conversion of files produced by Meshlab to CSV files compatible with Optimus.
-7. Select a path to an output CSV file in the configuration of `Save output file` node.
-8. In the configuration dialog of `Convert PP to CSV` node, select the file produced by Meshlab as a first parameter. You may keep the default value of the second parameter, sampling point radii. After you get the first visualization, you will be able to rerun the workflow to generate larger or smaller sampling points. Also, it is possible to change the radii manually in the result CSV file produced by the workflow.
-9. Run the workflow to generate the CSV file with coordinates of sampling spots.
+
+After this, you have two options to generate a CSV table with coordinates of the sampling points.
+
+1. KNIME workflow. It might be convenient if you already have KNIME installed.
+  a. Download and open in KNIME [a workflow](./PP2CSV Conversion.zip) for conversion of files produced by Meshlab to CSV files compatible with Optimus.
+  b. Select a path to an output CSV file in the configuration of `Save output file` node.
+  c. In the configuration dialog of `Convert PP to CSV` node, select the file produced by Meshlab as a first parameter. You may keep the default value of the second parameter, sampling point radii. After you get the first visualization, you will be able to rerun the workflow to generate larger or smaller sampling points. Also, it is possible to change the radii manually in the result CSV file produced by the workflow.
+  d. Run the workflow to generate the CSV file with coordinates of sampling spots.
+
+2. Python script.
+  a. Download [a python script](./pp2csv.py) from this repository.
+  b. Run it using the following command: `python pp2csv.py <path to the *.pp file created with Meshlab> <sampling point radius>`. After you get the first visualization, you will be able to rerun the script to generate larger or smaller sampling points. Also, it is possible to change the radii manually in the result CSV file produced by the script.
+  c. A file `coords.csv` will appear in your working directory.
