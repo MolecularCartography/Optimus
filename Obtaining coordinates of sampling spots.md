@@ -30,7 +30,7 @@ First of all, you need to settle upon a type of visualization you want to achiev
 
 5. After all points are selected and names of your samples are assigned to them, you need to click "Save" in the dialog and select a result file.
 
-After this, you have two options to generate a CSV table with coordinates of the sampling points.
+If you are doing signal processing with Optimus and want to visualize result LC-MS features in \`ili you can use the *.pp file produced by Meshlab as input for an Optimus node reading coordinates. Otherwise, you have two options to generate a CSV table with coordinates of the sampling points.
 
 1. KNIME workflow. It might be convenient if you already have KNIME installed.
   1. Download and open in KNIME [a workflow](./PP2CSV Conversion.zip) for conversion of files produced by Meshlab to CSV files compatible with Optimus.
