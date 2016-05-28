@@ -93,7 +93,7 @@ Note, that the procedure described above should be completed only **once**. So, 
 
 ### Installing and updating workflow
 
-1. Download [a file with the workflow](./Optimus_v_0.1.zip) from this repository.
+1. Download [a file with the workflow](./Optimus_v_0.1_2016.05.28.zip) from this repository.
 2. In the KNIME window, go to `File => Import KNIME Workflow...`. `Workflow Import Selection` dialog should open after this.
 3. Check `Select archive file`, press `Browse...` and select the file downloaded at the 1st step.
   * *Note*: some web-browsers, like Safari, unzip archives automatically after downloading. In this case you'll find a new folder in your "Downloads" folder instead of a zip file. In this case check `Select root directory` in the import dialog, press `Browse...` and select the directory downloaded at the 1st step.
