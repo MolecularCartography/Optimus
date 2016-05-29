@@ -38,20 +38,22 @@ The workflow is developed for spatial mapping but can be useful in almost any st
 
 The workflow consists of the following consequtive steps:
 
-1. Detection of LC-MS features in each sample.
-2. Alignment and quantification of features detected across all the samples.
-3. (*Optional*) Exclusion of features that came from blank/control samples.
-4. (*Optional*) Exclusion of rarely observed features, i.e. features that occur in a small number of samples only.
-5. (*Optional*) Exclusion of features for which MS/MS spectra were not acquired.
-6. (*Optional*) Exclusion of features that are not reproducible in quality control (QC) samples.
-6. (*Optional*) Putative molecular annotation of detected features by mz-RT matching to a list of molecules of interest. This implements a molecular identification at the level *putatively annotated compounds*, corresponding to the level 2 of the Metabolomics Standards Initiative; see [Sumner et al. (2007) Metabolomics, 3(3), 211-221](http://link.springer.com/article/10.1007%2Fs11306-007-0082-2) for details. Note that MS/MS validation of putative annotations is needed (currently not provided in Optimus). The list of molecules of interest can be directly exported from [GNPS](http://gnps.ucsd.edu/) as a result of MS/MS matching against spectral libraries available at GNPS. Alternatively, the list can be provided as a CSV file created manually.
-7. (*Optional*) Normalization of intensities of detected features. Currently, several normalization methods are available, based on:
-  * total ion current (TIC) of each sample;
-  * assumption that TICs of all samples are equal;
-  * intensities of features detected in QC samples.
-8. Creating a heat map of intensities of detected features across all samples.
-9. Visualizing samples on a 3D PCA plot.
-9. Creating spatial maps of detected features that can be visualized in [`ili app](https://github.com/ili-toolbox/ili). It is a web-application for interactive visualization of spatial data mapped either on an image or a 3D model, also developed by Alexandrov Team.
+1. Detection of LC-MS features in each run.
+2. Alignment and quantification of features detected across all the runs.
+3. (*Optional*) Visualization of the timeline of internal standards intensities.
+4. (*Optional*) Exclusion of features that came from blank/control runs.
+5. (*Optional*) Exclusion of rarely observed features, i.e. features that occur in a small number of runs only.
+6. (*Optional*) Exclusion of features for which MS/MS spectra were not acquired.
+7. (*Optional*) Exclusion of features that are not reproducible in pooled quality control (QC) runs.
+8. (*Optional*) Imputation of intensities of missing features.
+9. (*Optional*) Putative molecular annotation of detected features by mz-RT matching to a list of molecules of interest. This implements a molecular identification at the level *putatively annotated compounds*, corresponding to the level 2 of the Metabolomics Standards Initiative; see [Sumner et al. (2007) Metabolomics, 3(3), 211-221](http://link.springer.com/article/10.1007%2Fs11306-007-0082-2) for details. Note that MS/MS validation of putative annotations is needed (currently not provided in Optimus). The list of molecules of interest can be directly exported from [GNPS](http://gnps.ucsd.edu/) as a result of MS/MS matching against spectral libraries available at GNPS. Alternatively, the list can be provided as a CSV file created manually.
+10. (*Optional*) Normalization of intensities of detected features. Currently, several normalization methods are available, based on:
+  * total ion current (TIC) of each run;
+  * internal standards present in all runs;
+  * features detected in pooled QC samples.
+11. Creating a heat map of intensities of detected features across all samples.
+12. Visualizing samples on a 3D PCA plot.
+13. Creating spatial maps of detected features that can be visualized in [`ili app](https://github.com/ili-toolbox/ili). It is a web-application for interactive visualization of spatial data mapped either on an image or a 3D model, also developed by Alexandrov Team.
 
 ## What it doesn't do? (so far)
 
@@ -110,7 +112,7 @@ Make sure that input files contain centroided data.
 
 ### IMPORTANT: Stub input file
 
-The policy of KNIME input nodes implies they always have some files selected. However, it doesn't always match use-cases Optimus can handle, e.g. you might not have blank or QC samples. To bypass this restriction and make the workflow run, you need to create a file called "stub.txt" anywhere on your computer and use it as an input file whenever you don't have files required by an input node. 
+The policy of KNIME input nodes implies they always have some files selected. However, it doesn't always match use-cases Optimus can handle, e.g. you might not have blank or pooled QC runs. To bypass this restriction and make the workflow run, you need to create a file called "stub.txt" anywhere on your computer and use it as an input file whenever you don't have files required by an input node. 
 
 ## Basic use-case
 
@@ -125,7 +127,9 @@ The policy of KNIME input nodes implies they always have some files selected. Ho
 
 ## Output
 
-You can save the content of the heatmap, you saw at the end of previous section, as a CSV file. To do it, open the configuration dialog of the `Save feature quantification matrix` node and specify an output file path. The file will be created once you execute the node. You can open it then in any spreadsheet editor (e.g. Excel). Rows in the table will correspond to input samples, whereas columns will represent consensus features, i.e. ions of the same type quantified across the samples. Names of columns give information on corresponding features. The format is `mz_value RT charge`, so for example a column named `233.112 69 1` represents a single-charged ion with mz-value about 233.112 and chromatographic peak at around 69 seconds. As reported features are consensus, it doesn't mean one can find a mass trace in input samples matching consensus mz-value and retention time exactly. These figures are averaged across the samples, though the variation is supposed to be low from sample to sample.
+You can save the content of the heatmap, you saw at the end of previous section, as a CSV file. To do it, open the configuration dialog of the `Save feature quantification matrix` node and specify an output file path. The file will be created once you execute the node. You can open it then in any spreadsheet editor (e.g. Excel). Rows in the table will correspond to input samples, whereas columns will represent consensus features, i.e. ions of the same type quantified across the runs. Names of columns give information on corresponding features. The format is `mz_value RT charge (ID: numeric_identifier)`, so for example a column named `233.112 69 1 (ID: 123)` represents a single-charged ion with mz-value about 233.112 and chromatographic peak at around 69 seconds. As reported features are consensus, it doesn't mean one can find a mass trace in input samples matching consensus mz-value and retention time exactly. These figures are averaged across the runs, though the variation is supposed to be low from run to run.
+
+Numeric identifiers (IDs) are assigned to features after the alignment step and are not changed at the further steps. For the same input dataset and fixed parameters of feature detection and alignment, association between IDs and features are guaranteed to remain the same. So, the IDs can be used as shortcuts for features.
 
 ## KNIME Basics
 
@@ -136,7 +140,7 @@ If you're new to workflow management systems or KNIME in particular, you can fin
 This repository contains real-life samples that you can test the workflow on. They're available in this [archive](./examples/3D/apple_samples.zip) (courtesy of Alexey Melnik, Dorrestein Lab, UCSD). Inside, you'll find a directory called `samples` that contains LC-MS samples in mzXML format ready to be processed with the workflow. Blank samples separated from the normal ones in the `blanks` directory inside `samples`. They can be used to remove background features from your result features set.
 There're also 2 files in the root folder called `coords.csv` and `Rotten_Apple_Model.stl`. You'll need to supply them at the last step of the workflow that is supposed to produce spatial maps for `ili.
 
-If you want to quickly check, what are actually the results of the workflow, without diving into KNIME and installing everything, you can find the needed file in the `results` folder in the archive. It contains file `features_mapping.csv` which is a spreadsheet containing a table with intensities of different features detected in different samples. This file can be visualized in &#96;ili along with `Rotten_Apple_Model.stl`. You can simply drag&drop both of them to the `ili window.
+If you want to quickly check, what are actually the results of the workflow, without diving into KNIME and installing everything, you can find the needed file in the `results` folder in the archive. It contains file `features_mapping.csv` which is a spreadsheet containing a table with intensities of different features detected in different runs. This file can be visualized in &#96;ili along with `Rotten_Apple_Model.stl`. You can simply drag&drop both of them to the `ili window.
 
 Below, you can find an example of a spatial map obtained from `ili for a feature that is localized mainly in the vicinity of rot on the apple.
 
