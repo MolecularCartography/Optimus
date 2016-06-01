@@ -120,16 +120,20 @@ The policy of KNIME input nodes implies they always have some files selected. Ho
 2. Do a right click on the `Read normal samples` node and select `Configure...`. A dialog for input file selection should show up.
 3. Press `Clear`, then press `Add` and select files with your samples and press `OK`.
 4. Create a [stub file](#user-content-important-stub-input-file).
-5. Select the stub file as input for nodes `Read quality control samples`, `Read blank samples` and `Read file with mz-RT list`.
+5. Select the stub file as input for nodes `Read quality control samples`, `Read blank samples`, `Read list of internal standards` and `Read file with mz-RT list`.
 6. Click on the `Display feature heat map` node in the Workflow Editor and press `Execute selected and executable nodes` on the KNIME main toolbar. The workflow should start execution after this.
 7. After it's finished, right-click on the `Display feature heat map` node and select `Interactive View: Generic JavaScript View`. A window showing distribution of detected features will show up.
   * Note: by default, log transformation is applied to intensity values before rendering them on the heatmap. You can switch to initial intensities using `Scale` at the left-bottom corner of the window.
 
 ## Output
 
-You can save the content of the heatmap, you saw at the end of previous section, as a CSV file. To do it, open the configuration dialog of the `Save feature quantification matrix` node and specify an output file path. The file will be created once you execute the node. You can open it then in any spreadsheet editor (e.g. Excel). Rows in the table will correspond to input samples, whereas columns will represent consensus features, i.e. ions of the same type quantified across the runs. Names of columns give information on corresponding features. The format is `mz_value RT charge (ID: numeric_identifier)`, so for example a column named `233.112 69 1 (ID: 123)` represents a single-charged ion with mz-value about 233.112 and chromatographic peak at around 69 seconds. As reported features are consensus, it doesn't mean one can find a mass trace in input samples matching consensus mz-value and retention time exactly. These figures are averaged across the runs, though the variation is supposed to be low from run to run.
+In order to save results produced by Optimus, open the configuration dialog of the `Save results` node and specify an output directory. Once the node is executed, it creates 3 files in the output folder. One of them, `features_quantification_matrix.csv` can be opened in any spreadsheet editor (e.g. Excel). Rows in the table will correspond to input samples, whereas columns will represent consensus features, i.e. ions of the same type quantified across the runs. Table cells contain intensities of corresponding features. Names of columns give information on corresponding features. The format is `mz_value RT charge (ID: numeric_identifier)`, so for example a column named `233.112 69 1 (ID: 123)` represents a single-charged ion with mz-value about 233.112 and chromatographic peak at around 69 seconds. As reported features are consensus, it doesn't mean one can find a mass trace in input samples matching consensus mz-value and retention time exactly. These figures are averaged across the runs, but the variation is supposed to be low from run to run.
 
 Numeric identifiers (IDs) are assigned to features after the alignment step and are not changed at the further steps. For the same input dataset and fixed parameters of feature detection and alignment, association between IDs and features are guaranteed to remain the same. So, the IDs can be used as shortcuts for features.
+
+Another file produced by the workflow, `features_isotopic_patterns.csv`, is also a table with the same structure as the quantification matrix. The only difference is table cells contain isotopic patterns of features instead of intensities. The format of an isotopic pattern descriptor is the following: `mz1_min-mz1_max RT1_min-RT1_max|...|mzN_min-mzN_max RTN_min-RTN_max`. In this string, isotopic traces are sorted in ascending order from mz1 to mzN.
+
+The third `*.db` file contains extracted ion chromatograms (XIC) and MS/MS spectra for detected features. The file can be opened with `OptimusViewer` application developed by our team. You can download it and find the instruction on usage in [this GitHub repository](https://github.com/alexandrovteam/OptimusViewer).
 
 ## KNIME Basics
 
