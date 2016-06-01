@@ -163,3 +163,5 @@ Some errors can appear in the application log that interrupt workflow execution.
 ## License
 
 The content of this project is licensed under the Apache 2.0 licence, see LICENSE.md.
+
+[![Analytics](https://ga-beacon.appspot.com/UA-73611660-2/optimus/readme)](https://github.com/igrigorik/ga-beacon)
