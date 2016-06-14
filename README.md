@@ -8,6 +8,7 @@
 * [Who might need this workflow?](#who-needs-this-workflow)
 * [What it does?](#what-it-does)
 * [What it doesn't do? (so far)](#what-it-doesnt-do-so-far)
+* [System requirements](#system-requirements)
 * [Installation](#installation)
   * [KNIME and Python](#knime-and-python)
   * [Installing and updating workflow](#installing-and-updating-workflow)
@@ -59,6 +60,13 @@ The workflow consists of the following consequtive steps:
 
 The workflow doesn't support MS/MS-based metabolite identification and adducts deconvolution. We are working on it.
 
+## System requirements
+
+ * *Operating system*: only 64-bit systems are supported; MS Windows, Linux or Apple OS X.
+ * *RAM*: 1 GB is minimal amount. Generally, it is not enough for analysis of large datasets containing about a hundred or more LC-MS runs. However, it is sufficient for smaller ones. After all, it very much depends on the data itself (instrument, mass resolution, LC run-time, etc) and workflow settings.
+ * *CPU*: no special requirements. The more powerful your CPU is, the faster Optimus works. It leverages effectively multicore processors for parallel execution which improves the overall performance dramatically.
+ * *Hard drive*: all Optimus components take about 2.5 GB. During the execution Optimus creates temporary files that can occupy up to few times more space than initial dataset. Those files are not deleted automatically to enable iterative execution and re-execution of Optimus. However, there is an option inside the workflow to clean up temporary files.
+
 ## Installation
 
 The workflow is performed by [KNIME Analytics Platform](https://www.knime.org/), an open-source cross-platform general-purpose workflow management system. Before you start using the workflow, you need to install **KNIME** itself, **Python 2.7** (if it's not already installed) and a few additional modules for Python and KNIME. The installation steps are described below.
@@ -66,7 +74,6 @@ The workflow is performed by [KNIME Analytics Platform](https://www.knime.org/),
 ### KNIME and Python
 
 1. Download and install **Python 2.7 64-bit** if you don't have installed (it can be the case on Windows). You can download it from [the official Python Downloads Page](https://www.python.org/downloads/).
-  * *Note*: This step imposes a limitation on the system you can run workflow on. Namely, you need a 64-bit OS. We are working on lifting this restriction.
   * You can check easily if the needed Python distribution is already installed by typing `python -V` in your command prompt. You expect to see the output line starting with "Python 2.7". The second part of the version check is determining a bit version of your python interpreter. Follow [this instruction](https://intelligea.wordpress.com/2015/08/05/check-if-python-version-is-64-or-32-bit/) to know whether you have a 64-bit Python or not.
   * *Windows users*: Python installation directory might not be included to your `Path` environment variable. That's why you might get an error message upon executing `python` in command prompt although it's installed. To fix this, you should add <`Python_installation_directory`> to `Path` as well as <`Python_installation_directory\Scripts`>. By default, these directories are `C:\Python27` and `C:\Python27\Scripts`. You can find an instruction on changing `Path` variable [here](http://superuser.com/questions/143119/how-to-add-python-to-the-windows-path).
   * If you know you have a Python distribution installed, but find steps above too complicated, just install another Python interpreter of the needed version. Multiple versions can co-exist on the same computer fine. However, remember the directory where you install it.
@@ -76,7 +83,7 @@ The workflow is performed by [KNIME Analytics Platform](https://www.knime.org/),
  * *Others*: Before, make sure you have `pip` package manager available on your workstation. If you don't, execute `sudo easy_install pip` in the terminal to install it.
     * `sudo pip install lxml six pandas protobuf`
 3. Install `pyopenms` Python module which is used by Optimus internally for the retrieval of spectral information from input samples. In order to do this, visit official [pyopenms downloads page](https://pypi.python.org/pypi/pyopenms), scroll down to the list of available versions and download a package that corresponds to your operating system. Afterwards, execute the following command in command prompt to install `pyopenms`: `pip install <path_to_downloaded_package>`
-4. Download and install **KNIME Analytics Platform**. Select a package according to your operating system on [the official KNIME Downloads Page](https://www.knime.org/downloads/).
+4. Download and install **KNIME Analytics Platform 64-bit**. Select a package according to your operating system on [the official KNIME Downloads Page](https://www.knime.org/downloads/overview?quicktabs_knimed=1#quicktabs-knimed).
  * *Note*: If you already have KNIME installed, make sure that its version is not older than 2.12.*. The workflow hasn't been tested with older versions.
 5. Launch KNIME and install additional extensions.
   1. Go to `File => Install KNIME Extensions...`. `Available software` dialog should open after this.
