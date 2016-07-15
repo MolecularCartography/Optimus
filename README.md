@@ -8,6 +8,7 @@
 * [Who might need this workflow?](#who-needs-this-workflow)
 * [What it does?](#what-it-does)
 * [What it doesn't do? (so far)](#what-it-doesnt-do-so-far)
+* [System requirements](#system-requirements)
 * [Installation](#installation)
   * [KNIME and Python](#knime-and-python)
   * [Installing and updating workflow](#installing-and-updating-workflow)
@@ -59,6 +60,13 @@ The workflow consists of the following consequtive steps:
 
 The workflow doesn't support MS/MS-based metabolite identification and adducts deconvolution. We are working on it.
 
+## System requirements
+
+ * *Operating system*: only 64-bit systems are supported; MS Windows, Linux or Apple OS X.
+ * *RAM*: 1 GB is minimal amount. Generally, it is not enough for analysis of large datasets containing about a hundred or more LC-MS runs. However, it is sufficient for smaller ones. After all, it very much depends on the data itself (instrument, mass resolution, LC run-time, etc) and workflow settings.
+ * *CPU*: no special requirements. The more powerful your CPU is, the faster Optimus works. It leverages effectively multicore processors for parallel execution which improves the overall performance dramatically.
+ * *Hard drive*: all Optimus components take about 2.5 GB. During the execution Optimus creates temporary files that can occupy up to few times more space than initial dataset. Those files are not deleted automatically to enable iterative execution and re-execution of Optimus. However, there is an option inside the workflow to clean up temporary files.
+
 ## Installation
 
 The workflow is performed by [KNIME Analytics Platform](https://www.knime.org/), an open-source cross-platform general-purpose workflow management system. Before you start using the workflow, you need to install **KNIME** itself, **Python 2.7** (if it's not already installed) and a few additional modules for Python and KNIME. The installation steps are described below.
@@ -66,7 +74,6 @@ The workflow is performed by [KNIME Analytics Platform](https://www.knime.org/),
 ### KNIME and Python
 
 1. Download and install **Python 2.7 64-bit** if you don't have installed (it can be the case on Windows). You can download it from [the official Python Downloads Page](https://www.python.org/downloads/).
-  * *Note*: This step imposes a limitation on the system you can run workflow on. Namely, you need a 64-bit OS. We are working on lifting this restriction.
   * You can check easily if the needed Python distribution is already installed by typing `python -V` in your command prompt. You expect to see the output line starting with "Python 2.7". The second part of the version check is determining a bit version of your python interpreter. Follow [this instruction](https://intelligea.wordpress.com/2015/08/05/check-if-python-version-is-64-or-32-bit/) to know whether you have a 64-bit Python or not.
   * *Windows users*: Python installation directory might not be included to your `Path` environment variable. That's why you might get an error message upon executing `python` in command prompt although it's installed. To fix this, you should add <`Python_installation_directory`> to `Path` as well as <`Python_installation_directory\Scripts`>. By default, these directories are `C:\Python27` and `C:\Python27\Scripts`. You can find an instruction on changing `Path` variable [here](http://superuser.com/questions/143119/how-to-add-python-to-the-windows-path).
   * If you know you have a Python distribution installed, but find steps above too complicated, just install another Python interpreter of the needed version. Multiple versions can co-exist on the same computer fine. However, remember the directory where you install it.
@@ -76,7 +83,7 @@ The workflow is performed by [KNIME Analytics Platform](https://www.knime.org/),
  * *Others*: Before, make sure you have `pip` package manager available on your workstation. If you don't, execute `sudo easy_install pip` in the terminal to install it.
     * `sudo pip install lxml six pandas protobuf`
 3. Install `pyopenms` Python module which is used by Optimus internally for the retrieval of spectral information from input samples. In order to do this, visit official [pyopenms downloads page](https://pypi.python.org/pypi/pyopenms), scroll down to the list of available versions and download a package that corresponds to your operating system. Afterwards, execute the following command in command prompt to install `pyopenms`: `pip install <path_to_downloaded_package>`
-4. Download and install **KNIME Analytics Platform**. Select a package according to your operating system on [the official KNIME Downloads Page](https://www.knime.org/downloads/).
+4. Download and install **KNIME Analytics Platform 64-bit**. Select a package according to your operating system on [the official KNIME Downloads Page](https://www.knime.org/downloads/overview?quicktabs_knimed=1#quicktabs-knimed).
  * *Note*: If you already have KNIME installed, make sure that its version is not older than 2.12.*. The workflow hasn't been tested with older versions.
 5. Launch KNIME and install additional extensions.
   1. Go to `File => Install KNIME Extensions...`. `Available software` dialog should open after this.
@@ -120,16 +127,20 @@ The policy of KNIME input nodes implies they always have some files selected. Ho
 2. Do a right click on the `Read normal samples` node and select `Configure...`. A dialog for input file selection should show up.
 3. Press `Clear`, then press `Add` and select files with your samples and press `OK`.
 4. Create a [stub file](#user-content-important-stub-input-file).
-5. Select the stub file as input for nodes `Read quality control samples`, `Read blank samples` and `Read file with mz-RT list`.
+5. Select the stub file as input for nodes `Read quality control samples`, `Read blank samples`, `Read list of internal standards` and `Read file with mz-RT list`.
 6. Click on the `Display feature heat map` node in the Workflow Editor and press `Execute selected and executable nodes` on the KNIME main toolbar. The workflow should start execution after this.
 7. After it's finished, right-click on the `Display feature heat map` node and select `Interactive View: Generic JavaScript View`. A window showing distribution of detected features will show up.
   * Note: by default, log transformation is applied to intensity values before rendering them on the heatmap. You can switch to initial intensities using `Scale` at the left-bottom corner of the window.
 
 ## Output
 
-You can save the content of the heatmap, you saw at the end of previous section, as a CSV file. To do it, open the configuration dialog of the `Save feature quantification matrix` node and specify an output file path. The file will be created once you execute the node. You can open it then in any spreadsheet editor (e.g. Excel). Rows in the table will correspond to input samples, whereas columns will represent consensus features, i.e. ions of the same type quantified across the runs. Names of columns give information on corresponding features. The format is `mz_value RT charge (ID: numeric_identifier)`, so for example a column named `233.112 69 1 (ID: 123)` represents a single-charged ion with mz-value about 233.112 and chromatographic peak at around 69 seconds. As reported features are consensus, it doesn't mean one can find a mass trace in input samples matching consensus mz-value and retention time exactly. These figures are averaged across the runs, though the variation is supposed to be low from run to run.
+In order to save results produced by Optimus, open the configuration dialog of the `Save results` node and specify an output directory. Once the node is executed, it creates 3 files in the output folder. One of them, `features_quantification_matrix.csv` can be opened in any spreadsheet editor (e.g. Excel). Rows in the table will correspond to input samples, whereas columns will represent consensus features, i.e. ions of the same type quantified across the runs. Table cells contain intensities of corresponding features. Names of columns give information on corresponding features. The format is `mz_value RT charge (ID: numeric_identifier)`, so for example a column named `233.112 69 1 (ID: 123)` represents a single-charged ion with mz-value about 233.112 and chromatographic peak at around 69 seconds. As reported features are consensus, it doesn't mean one can find a mass trace in input samples matching consensus mz-value and retention time exactly. These figures are averaged across the runs, but the variation is supposed to be low from run to run.
 
 Numeric identifiers (IDs) are assigned to features after the alignment step and are not changed at the further steps. For the same input dataset and fixed parameters of feature detection and alignment, association between IDs and features are guaranteed to remain the same. So, the IDs can be used as shortcuts for features.
+
+Another file produced by the workflow, `features_isotopic_patterns.csv`, is also a table with the same structure as the quantification matrix. The only difference is table cells contain isotopic patterns of features instead of intensities. The format of an isotopic pattern descriptor is the following: `mz1_min-mz1_max RT1_min-RT1_max|...|mzN_min-mzN_max RTN_min-RTN_max`. In this string, isotopic traces are sorted in ascending order from mz1 to mzN.
+
+The third `*.db` file contains extracted ion chromatograms (XIC) and MS/MS spectra for detected features. The file can be opened with `OptimusViewer` application developed by our team. You can download it and find the instruction on usage in [this GitHub repository](https://github.com/alexandrovteam/OptimusViewer).
 
 ## KNIME Basics
 
