@@ -1,8 +1,8 @@
 echo
 echo
-echo Welcome to installation of Optimus version 0.1.2016.05.31!
+echo Welcome to installation of Optimus version 0.1.2016.10.27!
 echo
-echo Please wait till this window closes. The installer will download about 1.3 GB of data so it will take some time depending on the speed of your internet connection.
+echo The installer will download about 1.5 GB of data so it will take some time depending on the speed of your internet connection.
 echo
 echo Installation log:
 echo
@@ -17,8 +17,7 @@ echo Installing necessary Python packages...
 pip install pandas protobuf pyopenms 2&>1 >/dev/null
 
 echo Downloading KNIME installer...
-echo
-knimeVersion=3.1.2
+knimeVersion=3.2.1
 (cd $tmpDir; curl -O "https://download.knime.org/analytics-platform/macosx/knime-full_"$knimeVersion".app.macosx.cocoa.x86_64.dmg")
 knimeInstallerPath=$tmpDir"/knime-full_"$knimeVersion".app.macosx.cocoa.x86_64.dmg"
 
