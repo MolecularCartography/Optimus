@@ -1,6 +1,6 @@
 echo
 echo
-echo Welcome to installation of Optimus version 0.1.2016.10.27!
+echo Welcome to installation of Optimus version 0.1.2016.11.03!
 echo
 echo The installer will download about 1.5 GB of data so it will take some time depending on the speed of your internet connection.
 echo
@@ -14,7 +14,7 @@ rm -rf $tmpDir
 mkdir -p $tmpDir
 
 echo Installing necessary Python packages...
-pip install pandas protobuf pyopenms 2&>1 >/dev/null
+pip install -q numpy==1.11.2 six==1.10.0 pandas==0.19.0 protobuf==2.6.1 pyopenms==2.0
 
 echo Downloading KNIME installer...
 knimeVersion=3.2.1
@@ -27,7 +27,7 @@ hdiutil mount $knimeInstallerPath > /dev/null
 cp -R "/Volumes/KNIME $knimeVersion/KNIME $knimeVersion.app" /Applications
 hdiutil unmount "/Volumes/KNIME $knimeVersion" > /dev/null
 
-echo Cleaning up temporary files…
+echo Cleaning up temporary files...
 echo
 rm -rf $tmpDir
 
