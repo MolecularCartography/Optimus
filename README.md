@@ -10,7 +10,7 @@
 * [What it doesn't do? (so far)](#what-it-doesnt-do-so-far)
 * [System requirements](#system-requirements)
 * [Installation](#installation)
-  * [Express installation (Windows and OS X >= 10.10)](#express-installation-windows-and-os-x)
+  * [Express installation (Windows and OS X >= 10.10)](#express-installation--windows-7-or--os-x-1010)
   * [Regular installation](#regular-installation)
   * [Installing and updating workflow](#installing-and-updating-workflow)
 * [Input](#input)
