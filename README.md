@@ -10,7 +10,8 @@
 * [What it doesn't do? (so far)](#what-it-doesnt-do-so-far)
 * [System requirements](#system-requirements)
 * [Installation](#installation)
-  * [KNIME and Python](#knime-and-python)
+  * [Express installation (Windows and OS X >= 10.10)](#express-installation-windows-and-os-x)
+  * [Regular installation](#regular-installation)
   * [Installing and updating workflow](#installing-and-updating-workflow)
 * [Input](#input)
 * [IMPORTANT: Stub input file](#important-stub-input-file)
@@ -69,11 +70,17 @@ The workflow doesn't support MS/MS-based metabolite identification and adducts d
 
 ## Installation
 
-The workflow is performed by [KNIME Analytics Platform](https://www.knime.org/), an open-source cross-platform general-purpose workflow management system. Before you start using the workflow, you need to install **KNIME** itself, **Python 2.7** (if it's not already installed) and a few additional modules for Python and KNIME. The installation steps are described below.
+The workflow is performed by [KNIME Analytics Platform](https://www.knime.org/), an open-source cross-platform general-purpose workflow management system. Before you start using the workflow, you need to install **KNIME** itself, **Python 2.7** (if it's not already installed) and a few additional modules for Python and KNIME. The installation steps are described below. If your computer is running Windows 7 or newer or OS X 10.10 or newer, you can avail express installation scripts described in the section below. Otherwise, you will need to install Optimus dependencies manually as per [Regular installation](#regular-installation) section.
 
-### KNIME and Python
+### Express installation (>= Windows 7 or >= OS X 10.10)
 
-**OS X Users:** instead of performing 5 steps described below, save this [file](./installer/mac_installer.sh) on your computer and execute it in terminal with `sudo bash mac_installer.sh`. Remember that you need to set your working directory to a the one you downloaded the file to. After this command is finished, KNIME and Python should be installed on your computer, and you can proceed to [Installing and updating workflow](#installing-and-updating-workflow) section.
+**Windows users**: download these two files to the same directory: [win_installer.cmd](https://raw.githubusercontent.com/alexandrovteam/Optimus/master/installer/win_installer.cmd) and [win_core.ps1](https://raw.githubusercontent.com/alexandrovteam/Optimus/master/installer/win_core.ps1). Double-click `win_installer.cmd`, and it should install KNIME and Python automatically. During the installation, you will be prompted to select KNIME installation directory via a graphical window.
+
+**OS X Users:** download [mac_installer.sh](https://raw.githubusercontent.com/alexandrovteam/Optimus/master/installer/mac_installer.sh) on your computer and execute it in terminal with `sudo bash mac_installer.sh`.
+
+**All**: After the installation has finished, and you can proceed to [Installing and updating workflow](#installing-and-updating-workflow) section.
+
+### Regular installation
 
 1. Download and install **Python 2.7 64-bit** if you don't have installed (it can be the case on Windows). You can download it from [the official Python Downloads Page](https://www.python.org/downloads/).
   * You can check easily if the needed Python distribution is already installed by typing `python -V` in your command prompt. You expect to see the output line starting with "Python 2.7". The second part of the version check is determining a bit version of your python interpreter. Follow [this instruction](https://intelligea.wordpress.com/2015/08/05/check-if-python-version-is-64-or-32-bit/) to know whether you have a 64-bit Python or not.
@@ -104,13 +111,13 @@ Note, that the procedure described above should be completed only **once**. So, 
 
 ### Installing and updating workflow
 
-1. Download [a file with the workflow](./Optimus_v_0.1_2016.05.31.zip) from this repository.
+1. Download a zip file "Optimus_v_..." from this repository.
 2. In the KNIME window, go to `File => Import KNIME Workflow...`. `Workflow Import Selection` dialog should open after this.
 3. Check `Select archive file`, press `Browse...` and select the file downloaded at the 1st step.
   * *Note*: some web-browsers, like Safari, unzip archives automatically after downloading. In this case you'll find a new folder in your "Downloads" folder instead of a zip file. In this case check `Select root directory` in the import dialog, press `Browse...` and select the directory downloaded at the 1st step.
 4. Press `Finish`.
 
-Now you should see the `Optimus_v_0.1` item in the list at the left-hand side of the KNIME window. Double-click on it to open the workflow in the Workflow Editor where you can change its settings and specify input/output files.
+Now you should see the `Optimus_v_...` item in the list at the left-hand side of the KNIME window. Double-click on it to open the workflow in the Workflow Editor where you can change its settings and specify input/output files.
 
 For now, new versions of the workflow are uploaded to this repository replacing the previous one. In order to update the workflow on your local computer to a newer version, repeat the steps above.
 
