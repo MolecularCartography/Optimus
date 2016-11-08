@@ -1,4 +1,4 @@
-Write-Host "`n`nWelcome to installation of Optimus version 0.1.2016.05.31!`n"
+Write-Host "`n`nWelcome to installation of Optimus version 0.1.2016.11.07!`n"
 Write-Host "Please wait till this window closes. The installer will download about 1.6 GB of data so it can take some time depending on the speed of your internet connection.`n"
 
 Write-Host "Installation log:`n`n"
