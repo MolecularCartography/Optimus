@@ -88,13 +88,12 @@ The workflow is performed by [KNIME Analytics Platform](https://www.knime.org/),
   * If you know you have a Python distribution installed, but find steps above too complicated, just install another Python interpreter of the needed version. Multiple versions can co-exist on the same computer fine. However, remember the directory where you install it.
 2. Install a few Python modules needed for interaction between KNIME and Python. You can do this by executing the command below in your command prompt.
  * *Windows users*: Before, you should download and install a [Microsoft C++ Complier](http://aka.ms/vcpython27). One of those Python modules depends on it.
-   * `pip install lxml six pandas protobuf`
+   * `pip install six pandas protobuf pymspec pyopenms`
  * *Others*: Before, make sure you have `pip` package manager available on your workstation. If you don't, execute `sudo easy_install pip` in the terminal to install it.
-    * `sudo pip install lxml six pandas protobuf`
-3. Install `pyopenms` Python module which is used by Optimus internally for the retrieval of spectral information from input samples. In order to do this, visit official [pyopenms downloads page](https://pypi.python.org/pypi/pyopenms), scroll down to the list of available versions and download a package that corresponds to your operating system. Afterwards, execute the following command in command prompt to install `pyopenms`: `pip install <path_to_downloaded_package>`
-4. Download and install **KNIME Analytics Platform 64-bit**. Select a package according to your operating system on [the official KNIME Downloads Page](https://www.knime.org/downloads/overview?quicktabs_knimed=1#quicktabs-knimed).
+    * `sudo pip install six pandas protobuf pymspec pyopenms`
+3. Download and install **KNIME Analytics Platform 64-bit**. Select a package according to your operating system on [the official KNIME Downloads Page](https://www.knime.org/downloads/overview?quicktabs_knimed=1#quicktabs-knimed).
  * *Note*: If you already have KNIME installed, make sure that its version is not older than 2.12.*. The workflow hasn't been tested with older versions.
-5. Launch KNIME and install additional extensions.
+4. Launch KNIME and install additional extensions.
   1. Go to `File => Install KNIME Extensions...`. `Available software` dialog should open after this.
   2. Check the following items in the list of available extensions:
     * `OpenMS`

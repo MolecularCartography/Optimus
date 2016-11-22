@@ -24,7 +24,7 @@ Write-Host "Installing additional packages..."
 $pipUpgrade = -join($anacondaInstallationDir, "\python -m pip install --upgrade pip")
 iex $(-join($pipUpgrade, " | Out-Null"))
 
-$installWithPip = -join($anacondaInstallationDir, "\Scripts\pip install protobuf pyopenms", " | Out-Null")
+$installWithPip = -join($anacondaInstallationDir, "\Scripts\pip install protobuf==2.6.1 pyopenms==2.0.post0 pyMSpec==0.1", " | Out-Null")
 iex $installWithPip
 
 Write-Host "Downloading KNIME installer..."

@@ -14,7 +14,7 @@ rm -rf $tmpDir
 mkdir -p $tmpDir
 
 echo Installing necessary Python packages...
-pip install -q numpy==1.11.2 six==1.10.0 pandas==0.19.0 protobuf==2.6.1 pyopenms==2.0
+pip install -q numpy==1.11.2 six==1.10.0 pandas==0.19.0 protobuf==2.6.1 pyopenms==2.0 pyMSpec==0.1
 
 echo Downloading KNIME installer...
 knimeVersion=3.2.1
