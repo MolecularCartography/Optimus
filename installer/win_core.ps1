@@ -16,15 +16,15 @@ $client.DownloadFile("http://repo.continuum.io/archive/Anaconda2-4.2.0-Windows-x
 
 $anacondaInstallationDir = -join($env:LOCALAPPDATA, "\OptimusAnaconda")
 Write-Host $(-join("Installing Python to `"", $anacondaInstallationDir, "`"..."))
-$anacondaInstall = -join($anacondaInstallerPath, " /S /D=", $anacondaInstallationDir, " | Out-Null")
+$anacondaInstall = -join("& '", $anacondaInstallerPath, "' /S /D='", $anacondaInstallationDir, "' | Out-Null")
 iex $anacondaInstall
 
 Write-Host "Installing additional packages..."
 
-$pipUpgrade = -join($anacondaInstallationDir, "\python -m pip install --upgrade pip")
+$pipUpgrade = -join("& '", $anacondaInstallationDir, "\python' -m pip install --upgrade pip")
 iex $(-join($pipUpgrade, " | Out-Null"))
 
-$installWithPip = -join($anacondaInstallationDir, "\Scripts\pip install protobuf==2.6.1 pyopenms==2.0.1 pyMSpec==0.1", " | Out-Null")
+$installWithPip = -join("& '", $anacondaInstallationDir, "\Scripts\pip' install protobuf==2.6.1 pyopenms==2.0.1 pyMSpec==0.1", " | Out-Null")
 iex $installWithPip
 
 Write-Host "Downloading KNIME installer..."
@@ -32,7 +32,7 @@ $knimeInstallerPath = -join($tmpDir, "\KnimeInstaller.exe")
 $client.DownloadFile("https://download.knime.org/analytics-platform/win/KNIME%20Full%203.3.1%20Installer%20(64bit).exe", $knimeInstallerPath)
 
 Write-Host "Launching KNIME installer..."
-iex $(-join($knimeInstallerPath, " | Out-Null"))
+iex $(-join("& '", $knimeInstallerPath, "' | Out-Null"))
 
 
 Write-Host "Cleaning up temporary files...`n"
