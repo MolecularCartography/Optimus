@@ -1,5 +1,6 @@
-Write-Host "`n`nWelcome to installation of Optimus version 0.1.2016.01.12!`n"
-Write-Host "Please wait till this window closes. The installer will download about 1.6 GB of data so it can take some time depending on the speed of your internet connection.`n"
+Write-Host "`n`nWelcome to installation of Optimus version 0.1.2016.01.13!`n"
+Write-Host "To make sure the installation proceeds properly, please wait till this window closes. The installer will download about 2.3 GB of data so it can take some time depending on the speed of your internet connection.`n"
+Write-Host "If you want to cancel the installation, close this window.`n"
 
 Write-Host "Installation log:`n`n"
 
@@ -16,7 +17,7 @@ $client.DownloadFile("http://repo.continuum.io/archive/Anaconda2-4.2.0-Windows-x
 
 $anacondaInstallationDir = -join($env:LOCALAPPDATA, "\OptimusAnaconda")
 Write-Host $(-join("Installing Python to `"", $anacondaInstallationDir, "`"..."))
-$anacondaInstall = -join("& '", $anacondaInstallerPath, "' /S /D='", $anacondaInstallationDir, "' | Out-Null")
+$anacondaInstall = -join("& '", $anacondaInstallerPath, "' /S /D=", $anacondaInstallationDir, " | Out-Null")
 iex $anacondaInstall
 
 Write-Host "Installing additional packages..."
