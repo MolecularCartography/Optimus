@@ -20,7 +20,7 @@
 * [KNIME Basics](#knime-basics)
 * [Demo](#demo)
 * [Advanced use-cases](#advanced-use-cases)
-* [Known issues](#known-issues)
+* [Troubleshooting](#troubleshooting)
 * [License](#license)
 
 ## Introduction
@@ -168,15 +168,88 @@ Below, you can find an example of a spatial map obtained from `ili for a feature
 
 The workflow has many capabilities that you can discover in the documentation embedded into it. Just click on any node, and the description of its role and its parameters will show up in the banner at the right-hand side of the KNIME window. Different nodes don't depend on each other, so you can experiment with different settings and see how workflow output changes.
 
-## Known issues
+## Troubleshooting
 
-Some errors can appear in the application log that interrupt workflow execution. A node caused an error will be a left-most node with a clock sign in its center. Errors can happen from time to time depending on the environment at your workstation. Below, you can find a few known errors and workarounds for them.
-* An error message about `ConcurrentModificationException` is caused by an internal KNIME error that occurs upon simultaneous access to a single file by several computational nodes.
-  * Workaround: if it happened, press `Execute selected and executable nodes` on the KNIME main toolbar, and execution will continue from the point where error occurred.
-* `Execute failed: java.lang.NullPointerException` seems like an internal KNIME error.
-  * Workaround: Reset a node that produced the error (with right-click menu or `F8` key) and execute it again.
-* `Execute failed: Not all chunks finished - check individual chunk branches for details` also caused by malfunctioning during  multithreaded execution of some nodes.
-  * Workaround: Re-execute a node that produced the error.
+Some errors can appear in the application log that interrupt workflow execution. A node caused an error will be the left-most node with a red circle in its right side. In addition, you should see error output in KNIME Console. Below, you can find solutions for some common issues.
+
+<table>
+  <tr>
+    <th>Error output</th>
+    <th>Reason</th>
+    <th>Solution</th>
+  </tr>
+  <tr>
+    <td><code>ValueError: Only one sample labeled as "Replicate group (user-defined)" replicate is found. Please either remove this label or mark other samples with it.</code></td>
+    <td>Incorrect settings of the node reading experimental design file.</td>
+    <td>In the configuration dialog of <code>Read experimental design</code> node, check <code>read column headers</code> flag.</td>
+  </tr>
+  <tr>
+     <td><code>ValueError: No internal standard matched detected features. Consider changing settings of feature detection algorithm.</code></td>
+    <td>No features matching a provided list of internal standards are found.</td>
+    <td>Either change m/z and/or RT values of your internal standards in the CSV file provided to Optimus, or change settings of the <code>Detect LC-MS features</code> node to detect more features, potentially, ones corresponding to your internal standards.</td>
+  </tr>
+  <tr>
+    <td><code>ValueError: Input list of LC-MS features is empty. Try to change settings of feature detection or your filters.</code></td>
+    <td>No LC-MS features were reported at the end of the workflow.</td>
+    <td>Try to set more permissive settings of the <code>Filter features</code> node and/or the <code>Detect LC-MS features</code> one. Another option to consider would be removing a list of ions of interest if you used it for feature annotation by mz-RT matching.</td>
+  </tr>
+  <tr>
+    <td><code>ValueError: Samples without any group reference are found in the experimental design, though groups exist. Please either remove group names completely or assign a group to each LC-run.</code></td>
+    <td>Samples without a study group reference are found.</td>
+    <td>Include each sample to at least one study group or remove all study groups from the experimental design file.</td>
+  </tr>
+  <tr>
+    <td><code>ValueError: Study groups and replicate groups must not have same names. Following duplicate(s) have been found</code></td>
+    <td>Study groups and replicate identifiers having same names are found in the experimental design file.</td>
+    <td>Rename your study groups and/or replicate samples identifiers so that they do not overlap.</td>
+  </tr>
+  <tr>
+    <td><code>ValueError: Input file names must have different base names (names without extensions).</code></td>
+    <td>Some input files have duplicated base names.</td>
+    <td>Rename input files with duplicated names and generate the experimental design file again.</td>
+  </tr>
+  <tr>
+    <td>When executing the <code>Clean up temporary files</code> node, message <code>WindowsError: [Error 3] The system cannot find the path specified</code>.</td>
+    <td>Internal Windows-specific Python issue when accessing file system.</td>
+    <td>Execute the node again, the error should not appear.</td>
+  </tr>
+  <tr>
+    <td><code>ERROR Output Folder Execute failed: Cannot write to containing directoy</code></td>
+    <td>The directory specified for saving workflow output does not exist.</td>
+    <td>Create the directory specified for saving workflow output.</td>
+  </tr>
+  <tr>
+    <td><code>ERROR FeatureFinderMetabo  Error: Unexpected internal error (The value '0 0' was used but is not valid! FWHM beginning/ending indices not computed? Aborting...)]</code></td>
+    <td>Internal error of the LC-MS feature detection algorithms from the OpenMS library</td>
+    <td>Double-click on <code>Detect LC-MS features</code> node. Its internal structure should appear. Right-click on <code>Set advanced FD settings</code> and select <code>Configure...</code> in the drop-down menu. A configuration dialog should appear. Select <code>fixed</code> for <code>epd_width_filtering</code> parameter and click <code>OK</code>. Close the current KNIME tab to return to the top-level workflow view. Execute the workflow again.</td>
+  </tr>
+  <tr>
+    <td>ERROR PythonKernel determination of memory status not supported on this platform, mesauring for memoryleaks will never fail</td>
+    <td>Mac-specific message prompted by the <code>pyopenms</code> library. It is not an error, but a diagnostic message. It does not affect workflow results or performance.</td>
+    <td>Ignore.</td>
+  </tr>
+  <tr>
+    <td><code>Execute failed: Not all chunks finished - check individual chunk branches for details</code></td>
+    <td rowspan="6">Internal KNIME issue.</td>
+    <td rowspan="5">Right-click on the node caused the error and select <code>Reset</code> in the drop-down menu. Execute the workflow again. The error should not appear.</td>
+  </tr>
+  <tr>
+    <td><code>Execute failed: java.lang.NullPointerException</code></td>
+  </tr>
+  <tr>
+    <td><code>Execute failed: ConcurrentModificationException</code></td>
+  </tr>
+  <tr>
+    <td><code>Execute failed: Could not start python kernel</code></td>
+  </tr>
+  <tr>
+    <td>ERROR FileConverter Execute failed: Failed to execute node FileConverter</td>
+  </tr>
+  <tr>
+    <td><code>ERROR LoadWorkflowRunnable Errors during load: Status: DataLoadError: Optimus_v_1.0 0 loaded with error during data load</code></td>
+    <td>Reset the workflow: right-click on the workflow item in <code>KNIME Explorer</code> and select <code>Reset</code> in the drop-down menu. Then, execute it again. The error should not appear again.</td>
+  </tr>
+</table>
  
 ## License
 
