@@ -7,7 +7,6 @@
 * [Introduction](#introduction)
 * [Who might need this workflow?](#who-needs-this-workflow)
 * [What it does?](#what-it-does)
-* [What it doesn't do? (so far)](#what-it-doesnt-do-so-far)
 * [System requirements](#system-requirements)
 * [Installation](#installation)
   * [Express installation (Windows and OS X >= 10.10)](#express-installation--windows-7-or--os-x-1010)
@@ -15,6 +14,7 @@
   * [Installing and updating workflow](#installing-and-updating-workflow)
 * [Input](#input)
 * [IMPORTANT: Stub input file](#important-stub-input-file)
+* [Experimental design file](#experimental-design-file)
 * [Basic use-case](#basic-use-case)
 * [Output](#output)
 * [KNIME Basics](#knime-basics)
@@ -25,7 +25,7 @@
 
 ## Introduction
 
-Optimus is a workflow for LC-MS-based untargeted metabolomics. It can be used for feature detection, quantification, filtering (e.g. removing background features), mz-RT matching with a list of known ions, normalization and, finally, for spatial mapping of detected molecular features in 2D and 3D using the [`ili app](https://github.com/ili-toolbox/ili). Optimus employes the state-of-the-art LC-MS feature detection and quantification algorithms by [OpenMS](http://www.openms.de) which are joined into a handy pipeline with a modern workflow management software [KNIME](https://www.knime.org) with additional features implemented by us.
+Optimus is a workflow for LC-MS-based untargeted metabolomics. It can be used for feature detection, quantification, filtering (e.g. removing background features), annotation, normalization and, finally, for spatial mapping of detected molecular features in 2D and 3D using the [`ili app](https://github.com/ili-toolbox/ili). Optimus employes the state-of-the-art LC-MS feature detection and quantification algorithms by [OpenMS](http://www.openms.de) which are joined into a handy pipeline with a modern workflow management software [KNIME](https://www.knime.org) with additional features implemented by us.
 
 The workflow is being developed by [Alexandrov Team](http://www.embl.de/research/units/scb/alexandrov/index.html) at EMBL Heidelberg ([contact information](http://www.embl.de/research/units/scb/alexandrov/contact/index.html)).
 
@@ -34,7 +34,7 @@ The workflow is being developed by [Alexandrov Team](http://www.embl.de/research
 
 ## Who needs this workflow?
 
-The workflow is developed for spatial mapping but can be useful in almost any study of LC-MS-based untargeted metabolomics. It is developed to be open-source, sharable, and efficient enough to process hundreds of LC-MS runs in reasonable time.
+The workflow was initially developed for LC-MS-based metabolite cartography, but can be useful in almost any study of LC-MS-based untargeted metabolomics. It is developed to be open-source, sharable, and efficient enough to process hundreds of LC-MS runs in reasonable time.
 
 ## What it does?
 
@@ -47,24 +47,22 @@ The workflow consists of the following consequtive steps:
 5. (*Optional*) Exclusion of rarely observed features, i.e. features that occur in a small number of runs only.
 6. (*Optional*) Exclusion of features for which MS/MS spectra were not acquired.
 7. (*Optional*) Exclusion of features that are not reproducible in pooled quality control (QC) runs.
-8. (*Optional*) Imputation of intensities of missing features.
-9. (*Optional*) Putative molecular annotation of detected features by mz-RT matching to a list of molecules of interest. This implements a molecular identification at the level *putatively annotated compounds*, corresponding to the level 2 of the Metabolomics Standards Initiative; see [Sumner et al. (2007) Metabolomics, 3(3), 211-221](http://link.springer.com/article/10.1007%2Fs11306-007-0082-2) for details. Note that MS/MS validation of putative annotations is needed (currently not provided in Optimus). The list of molecules of interest can be directly exported from [GNPS](http://gnps.ucsd.edu/) as a result of MS/MS matching against spectral libraries available at GNPS. Alternatively, the list can be provided as a CSV file created manually.
-10. (*Optional*) Normalization of intensities of detected features. Currently, several normalization methods are available, based on:
+8. (*Optional*) Exclusion of features that are not reproducible in replicate runs.
+9. (*Optional*) Exclusion of features corresponding to compounds eluting in the beginning or end of LC-runs.
+10. (*Optional*) Putative molecular annotation of detected features by mz-RT matching to a list of molecules of interest. This implements a molecular identification at the level *putatively annotated compounds*, corresponding to the level 2 of the Metabolomics Standards Initiative; see [Sumner et al. (2007) Metabolomics, 3(3), 211-221](http://link.springer.com/article/10.1007%2Fs11306-007-0082-2) for details. Note that MS/MS validation of putative annotations is needed (currently not provided in Optimus). The list of molecules of interest can be directly exported from [GNPS](http://gnps.ucsd.edu/) as a result of MS/MS matching against spectral libraries available at GNPS. Alternatively, the list can be provided as a CSV file created manually.
+11. (*Optional*) Normalization of intensities of detected features. Currently, several normalization methods are available, based on:
   * total ion current (TIC) of each run;
   * internal standards present in all runs;
   * features detected in pooled QC samples.
-11. Creating a heat map of intensities of detected features across all samples.
-12. Visualizing samples on a 3D PCA plot.
-13. Creating spatial maps of detected features that can be visualized in [`ili app](https://github.com/ili-toolbox/ili). It is a web-application for interactive visualization of spatial data mapped either on an image or a 3D model, also developed by Alexandrov Team.
-
-## What it doesn't do? (so far)
-
-The workflow doesn't support MS/MS-based metabolite identification and adducts deconvolution. We are working on it.
+12. (*Optional*) Exporting spectral data of detected features for further downstream analysis with third-party tools, including those performing *In-Silico* prediction such as [Sirius](https://bio.informatik.uni-jena.de/software/sirius/) or [MS-FINDER](http://prime.psc.riken.jp/Metabolomics_Software/MS-FINDER/index.html).
+12. Creating a heat map of intensities of detected features across all samples.
+13. Visualizing samples on a 3D PCA plot.
+14. Creating spatial maps of detected features that can be visualized in [`ili app](https://github.com/ili-toolbox/ili). It is a web-application for interactive visualization of spatial data mapped either on an image or a 3D model, also developed by Alexandrov Team.
 
 ## System requirements
 
  * *Operating system*: only 64-bit systems are supported; MS Windows, Linux or Apple OS X.
- * *RAM*: 1 GB is minimal amount. Generally, it is not enough for analysis of large datasets containing about a hundred or more LC-MS runs. However, it is sufficient for smaller ones. After all, it very much depends on the data itself (instrument, mass resolution, LC run-time, etc) and workflow settings.
+ * *RAM*: 2 GB is minimal amount. Generally, it is not enough for analysis of large datasets containing about a hundred or more LC-MS runs. However, it is sufficient for smaller ones. After all, it very much depends on the data itself (instrument, mass resolution, LC run-time, etc) and workflow settings.
  * *CPU*: no special requirements. The more powerful your CPU is, the faster Optimus works. It leverages effectively multicore processors for parallel execution which improves the overall performance dramatically.
  * *Hard drive*: all Optimus components take about 2.5 GB. During the execution Optimus creates temporary files that can occupy up to few times more space than initial dataset. Those files are not deleted automatically to enable iterative execution and re-execution of Optimus. However, there is an option inside the workflow to clean up temporary files.
 
@@ -74,9 +72,11 @@ The workflow is performed by [KNIME Analytics Platform](https://www.knime.org/),
 
 ### Express installation (>= Windows 7 or >= OS X 10.10)
 
-**Windows users**: download these two files to the same directory: [win_installer.cmd](https://raw.githubusercontent.com/alexandrovteam/Optimus/master/installer/win_installer.cmd) and [win_core.ps1](https://raw.githubusercontent.com/alexandrovteam/Optimus/master/installer/win_core.ps1). Double-click `win_installer.cmd`, and it should install KNIME and Python automatically. During the installation, you will be prompted to select KNIME installation directory via a graphical window.
+Go to the [Releases](https://github.com/MolecularCartography/Optimus/releases) section of this repository, download a zip archive with the latest Optimus version and unpack it to any directory on your computer. Then, follow the instruction for your OS:
 
-**OS X Users:** download [mac_installer.sh](https://raw.githubusercontent.com/alexandrovteam/Optimus/master/installer/mac_installer.sh) on your computer and execute it in terminal with `sudo bash mac_installer.sh`.
+**Windows users**: open the `installer` subdirectory and double-click `win_installer.cmd`. It should install KNIME and Python automatically. During the installation, you will be prompted to select KNIME installation directory via a graphical window.
+
+**OS X Users:** open your Terminal, navigate to the `installer` subdirectory and execute `sudo bash mac_installer.sh`.
 
 **All**: After the installation has finished, and you can proceed to [Installing and updating workflow](#installing-and-updating-workflow) section.
 
@@ -110,33 +110,48 @@ Note, that the procedure described above should be completed only **once**. So, 
 
 ### Installing and updating workflow
 
-1. Download file "Optimus_v_...knwf" from this repository.
-2. In the KNIME window, go to `File => Import KNIME Workflow...`. `Workflow Import Selection` dialog should open after this.
-3. Check `File`, press `Browse...` and select the file downloaded at the 1st step.
+It's assumed that you've downloaded the [latest Optimus release](https://github.com/MolecularCartography/Optimus/releases) and extracted it to a directory on your computer.
+
+1. Launch KNIME, go to `File => Import KNIME Workflow...`. `Workflow Import Selection` dialog should open after this.
+3. Check `File`, press `Browse...` and select the `Optimus v...knwf` file from the extracted directory.
 4. Press `Finish`.
 
-Now, you should see the `Optimus_v_...` item in the list at the left-hand side of the KNIME window. Double-click on it to open the workflow in the Workflow Editor where you can change its settings and specify input/output files.
+Now, you should see the `Optimus v...` item in the list at the left-hand side of the KNIME window. Double-click on it to open the workflow in the Workflow Editor where you can change its settings and specify input/output files.
 
-For now, new versions of the workflow are uploaded to this repository replacing the previous one. In order to update the workflow on your local computer to a newer version, repeat the steps above.
+New versions of the workflow appear as new releases in this repository. In order to update the workflow on your local computer to a newer version, repeat the steps above.
 
 ## Input
 
-The workflow supports the following formats of mass spectrometry data: mzML, mzXML and mzData. Internally, all input files will be converted to mzML, so you can save some time on the workflow execution if your data are already in this format.
+The workflow supports mzML and mzXML formats of mass spectrometry data. Internally, all input files will be converted to mzML, so you can save some time on the workflow execution if your data are already in this format.
 Make sure that input files contain centroided data.
 
 ### IMPORTANT: Stub input file
 
-The policy of KNIME input nodes implies they always have some files selected. However, it doesn't always match use-cases Optimus can handle, e.g. you might not have blank or pooled QC runs. To bypass this restriction and make the workflow run, you need to create a file called "stub.txt" anywhere on your computer and use it as an input file whenever you don't have files required by an input node. 
+The policy of KNIME input nodes implies they always have some files selected. However, it doesn't always match use-cases Optimus can handle, e.g. you might not have a list of internal standards spiked in your samples. To bypass this restriction and make the workflow run, you need to create a file called "stub.txt" anywhere on your computer and use it as an input file whenever you don't have files required by an input node. 
+
+## Experimental design file
+
+The first stage of Optimus execution is the creation of a file with some details concerning your experimental design such as blank runs, replicate runs, etc. This information can be used by Optimus during the data analysis to remove features caused by background signals or those that are not reproducible in replicate runs. The experimental design is a CSV spreadsheet consisting of 4 columns: file path, LC-run type, sample group and replicate group. Optimus will generate a template of the spreadsheet with all file paths filled, but other columns should be filled manually according to your study as described below:
+
+ * *LC-run type*: `BLANK` in rows corresponding to blank LC-runs, `POOLED_QC` for pooled QC runs.
+ * *Sample group*: identifiers of your study groups, which can be any text. The column should be filled for all rows or empty. A single LC-run can be a member of several groups. In this case, group identifiers should be separated by semicolon. 
+ * *Replicate group*: identifiers of a source sample represented by replicates. It can be any text. Every identifier should be used at least twice in the column.
 
 ## Basic use-case
 
 1. Open the workflow in the KNIME Workflow Editor.
-2. Do a right click on the `Read normal samples` node and select `Configure...`. A dialog for input file selection should show up.
+2. Do a right click on the `Read LC-MS runs` node and select `Configure...`. A dialog for input file selection should show up.
 3. Press `Clear`, then press `Add` and select files with your samples and press `OK`.
-4. Create a [stub file](#user-content-important-stub-input-file).
-5. Select the stub file as input for nodes `Read quality control samples`, `Read blank samples`, `Read list of internal standards` and `Read file with mz-RT list`.
-6. Click on the `Display feature heat map` node in the Workflow Editor and press `Execute selected and executable nodes` on the KNIME main toolbar. The workflow should start execution after this.
-7. After it's finished, right-click on the `Display feature heat map` node and select `Interactive View: Generic JavaScript View`. A window showing distribution of detected features will show up.
+4. Create the [stub file](#important-stub-input-file).
+5. Select the stub file as input for nodes `Read group mapping`, `Read list of internal standards` and `Read mz-RT list`.
+6. Right-click on the `Save template of experimental design` node and select `Configure...`. A dialog for output file selection should show up.
+7. Click `Browse...` and specify where a template file with your experimental design will be stored. It's recommended to keep it in the same directory where you LC-MS data is located.
+8. Right-click on the `Save template of experimental design` node and select `Execute`. The upper part of the workflow should start execution, and the file with experimental design will be created. The file can be then edited manually according to your experimental design as described [above](#experimental-design-file).
+9. Right-click on the `Read experimental design` node and select `Configure...`. A file selection dialog should appear.
+10. Click `Browse...` and select the experimental design file.
+11. Make sure that `read column headers` is checked, `read row IDs` is not checked, and `column delimiter` is set to `,` (comma). Click `OK`.
+6. Right-click on the `Display feature heat map` node and select `Execute`. The workflow should start execution. It's finished when a red circle in the lower part of the node turns into a green one. Wait till it happens.
+7. Right-click on the `Display feature heat map` node and select `Interactive View: Generic JavaScript View`. A window showing distribution of detected features will show up.
   * Note: by default, log transformation is applied to intensity values before rendering them on the heatmap. You can switch to initial intensities using `Scale` at the left-bottom corner of the window.
 
 ## Output
@@ -145,9 +160,9 @@ In order to save results produced by Optimus, open the configuration dialog of t
 
 Numeric identifiers (IDs) are assigned to features after the alignment step and are not changed at the further steps. For the same input dataset and fixed parameters of feature detection and alignment, association between IDs and features are guaranteed to remain the same. So, the IDs can be used as shortcuts for features.
 
-Another file produced by the workflow, `features_isotopic_patterns.csv`, is also a table with the same structure as the quantification matrix. The only difference is table cells contain isotopic patterns of features instead of intensities. The format of an isotopic pattern descriptor is the following: `mz1_min-mz1_max RT1_min-RT1_max|...|mzN_min-mzN_max RTN_min-RTN_max`. In this string, isotopic traces are sorted in ascending order from mz1 to mzN.
+Another file produced by the workflow, `Optimus_settings.ini` is a configuration file that contains the list of values of all Optimus parameters used to generate the output. This file, along with the experimental design, can be used to reproduce the data analysis.
 
-The third `*.db` file contains extracted ion chromatograms (XIC) and MS/MS spectra for detected features. The file can be opened with `OptimusViewer` application developed by our team. You can download it and find the instruction on usage in [this GitHub repository](https://github.com/alexandrovteam/OptimusViewer).
+The third `OptimusViewer_input.db` file contains extracted ion chromatograms (XIC) and MS/MS spectra for detected features. The file can be opened with `OptimusViewer` application also developed by Alexandrov team. You can download it and find the instruction on usage in [this GitHub repository](https://github.com/alexandrovteam/OptimusViewer).
 
 ## KNIME Basics
 
@@ -158,7 +173,7 @@ If you're new to workflow management systems or KNIME in particular, you can fin
 This repository contains real-life samples that you can test the workflow on. They're available in this [archive](./examples/3D/apple_samples.zip) (courtesy of Alexey Melnik, Dorrestein Lab, UCSD). Inside, you'll find a directory called `samples` that contains LC-MS samples in mzXML format ready to be processed with the workflow. Blank samples separated from the normal ones in the `blanks` directory inside `samples`. They can be used to remove background features from your result features set.
 There're also 2 files in the root folder called `coords.csv` and `Rotten_Apple_Model.stl`. You'll need to supply them at the last step of the workflow that is supposed to produce spatial maps for `ili.
 
-If you want to quickly check, what are actually the results of the workflow, without diving into KNIME and installing everything, you can find the needed file in the `results` folder in the archive. It contains file `features_mapping.csv` which is a spreadsheet containing a table with intensities of different features detected in different runs. This file can be visualized in &#96;ili along with `Rotten_Apple_Model.stl`. You can simply drag&drop both of them to the `ili window.
+If you want to check quickly, what are actually the results of the workflow, without diving into KNIME and installing everything, you can find the needed file in the `results` folder in the archive. It contains file `features_mapping.csv` which is a spreadsheet containing a table with intensities of different features detected in different runs. This file can be visualized in &#96;ili along with `Rotten_Apple_Model.stl`. You can simply drag&drop both of them to the `ili window.
 
 Below, you can find an example of a spatial map obtained from `ili for a feature that is localized mainly in the vicinity of rot on the apple.
 
@@ -166,7 +181,7 @@ Below, you can find an example of a spatial map obtained from `ili for a feature
 
 ## Advanced use-cases
 
-The workflow has many capabilities that you can discover in the documentation embedded into it. Just click on any node, and the description of its role and its parameters will show up in the banner at the right-hand side of the KNIME window. Different nodes don't depend on each other, so you can experiment with different settings and see how workflow output changes.
+The workflow has many capabilities that you can discover in the documentation embedded into it. Just click on any node, and the description of its role and its parameters will show up in the banner at the right-hand side of the KNIME window. Different nodes don't depend on each other, so you can experiment with different settings and track changes of the workflow output.
 
 ## Troubleshooting
 
@@ -174,7 +189,7 @@ Some errors can appear in the application log that interrupt workflow execution.
 
 <table>
   <tr>
-    <th>Error output</th>
+    <th>Error output or problem</th>
     <th>Reason</th>
     <th>Solution</th>
   </tr>
@@ -187,6 +202,10 @@ Some errors can appear in the application log that interrupt workflow execution.
      <td><code>ValueError: No internal standard matched detected features. Consider changing settings of feature detection algorithm.</code></td>
     <td>No features matching a provided list of internal standards are found.</td>
     <td>Either change m/z and/or RT values of your internal standards in the CSV file provided to Optimus, or change settings of the <code>Detect LC-MS features</code> node to detect more features, potentially, ones corresponding to your internal standards.</td>
+  </tr>
+    <td>A computer runs out of hard drive space when Optimus is running</td>
+    <td>Temporary files produced by Optimus are too large.</td>
+    <td>Cancel the workflow execution. Either free up some space or use space from another hard disk drive for temporary files as follows. Make sure an additional hard drive is connected. Open KNIME preferences dialog and in the “KNIME” section set “Directory for temporary files” to be located in a hard drive with more free space available. Restart KNIME to apply the new settings.</td>
   </tr>
   <tr>
     <td><code>ValueError: Input list of LC-MS features is empty. Try to change settings of feature detection or your filters.</code></td>
@@ -224,7 +243,7 @@ Some errors can appear in the application log that interrupt workflow execution.
     <td>Double-click on <code>Detect LC-MS features</code> node. Its internal structure should appear. Right-click on <code>Set advanced FD settings</code> and select <code>Configure...</code> in the drop-down menu. A configuration dialog should appear. Select <code>fixed</code> for <code>epd_width_filtering</code> parameter and click <code>OK</code>. Close the current KNIME tab to return to the top-level workflow view. Execute the workflow again.</td>
   </tr>
   <tr>
-    <td>ERROR PythonKernel determination of memory status not supported on this platform, mesauring for memoryleaks will never fail</td>
+    <td><code>ERROR PythonKernel determination of memory status not supported on this platform, mesauring for memoryleaks will never fail</code></td>
     <td>Mac-specific message prompted by the <code>pyopenms</code> library. It is not an error, but a diagnostic message. It does not affect workflow results or performance.</td>
     <td>Ignore.</td>
   </tr>
@@ -243,7 +262,7 @@ Some errors can appear in the application log that interrupt workflow execution.
     <td><code>Execute failed: Could not start python kernel</code></td>
   </tr>
   <tr>
-    <td>ERROR FileConverter Execute failed: Failed to execute node FileConverter</td>
+    <td><code>ERROR FileConverter Execute failed: Failed to execute node FileConverter</code></td>
   </tr>
   <tr>
     <td><code>ERROR LoadWorkflowRunnable Errors during load: Status: DataLoadError: Optimus_v_1.0 0 loaded with error during data load</code></td>
