@@ -9,7 +9,7 @@
 * [What it does?](#what-it-does)
 * [System requirements](#system-requirements)
 * [Installation](#installation)
-  * [Express installation (Windows and OS X >= 10.10)](#express-installation--windows-7-or--os-x-1010)
+  * [Express installation (>= Windows 7 or >= macOS 10.10)](#express-installation--windows-7-or--macos-1010)
   * [Regular installation](#regular-installation)
   * [Installing and updating workflow](#installing-and-updating-workflow)
 * [Input](#input)
@@ -61,24 +61,32 @@ The workflow consists of the following consequtive steps:
 
 ## System requirements
 
- * *Operating system*: only 64-bit systems are supported; MS Windows, Linux or Apple OS X.
+ * *Operating system*: only 64-bit systems are supported; MS Windows, Linux or Apple macOS.
  * *RAM*: 2 GB is minimal amount. Generally, it is not enough for analysis of large datasets containing about a hundred or more LC-MS runs. However, it is sufficient for smaller ones. After all, it very much depends on the data itself (instrument, mass resolution, LC run-time, etc) and workflow settings.
  * *CPU*: no special requirements. The more powerful your CPU is, the faster Optimus works. It leverages effectively multicore processors for parallel execution which improves the overall performance dramatically.
  * *Hard drive*: all Optimus components take about 2.5 GB. During the execution Optimus creates temporary files that can occupy up to few times more space than initial dataset. Those files are not deleted automatically to enable iterative execution and re-execution of Optimus. However, there is an option inside the workflow to clean up temporary files.
 
 ## Installation
 
-The workflow is performed by [KNIME Analytics Platform](https://www.knime.org/), an open-source cross-platform general-purpose workflow management system. Before you start using the workflow, you need to install **KNIME** itself, **Python 2.7** (if it's not already installed) and a few additional modules for Python and KNIME. The installation steps are described below. If your computer is running Windows 7 or newer or OS X 10.10 or newer, you can avail express installation scripts described in the section below. Otherwise, you will need to install Optimus dependencies manually as per [Regular installation](#regular-installation) section.
+The workflow is performed by [KNIME Analytics Platform](https://www.knime.org/), an open-source cross-platform general-purpose workflow management system. Before you start using the workflow, you need to install **KNIME** itself, **Python 2.7** (if it's not already installed) and a few additional modules for Python and KNIME. The installation steps are described below. If your computer is running Windows 7 or newer or macOS 10.10 or newer, you can avail express installation scripts described in the section below. Otherwise, you will need to install Optimus dependencies manually as per [Regular installation](#regular-installation) section.
 
-### Express installation (>= Windows 7 or >= OS X 10.10)
+### Express installation (>= Windows 7 or >= macOS 10.10)
 
 Go to the [Releases](https://github.com/MolecularCartography/Optimus/releases) section of this repository, download a zip archive with the latest Optimus version and unpack it to any directory on your computer. Then, follow the instruction for your OS:
 
 **Windows users**: open the `installer` subdirectory and double-click `win_installer.cmd`. It should install KNIME and Python automatically. During the installation, you will be prompted to select KNIME installation directory via a graphical window.
 
-**OS X Users:** open your Terminal, navigate to the `installer` subdirectory and execute `sudo bash mac_installer.sh`.
+**macOS Users:** open your Terminal, navigate to the `installer` subdirectory and execute `sudo bash mac_installer.sh`.
 
-**All**: After the installation has finished, and you can proceed to [Installing and updating workflow](#installing-and-updating-workflow) section.
+**All:** After the installation has finished, make sure that the installed Python distribution is recognized correctly by KNIME:
+  1. Launch KNIME, click `File` menu and select `Preferences`. A `Preferences` dialog should appear.
+  2. In the sidebar of the dialog, expand the `KNIME` item and select its `Python` sub-item.
+  3. Click `Apply`.
+  4. If no error messages are shown in the dialog, Python distribution was recognized by KNIME successfully, and no further actions are needed. Otherwise, proceed with the following steps.
+  5. Click `Browse...` and select file
+    - *Windows users:* `C:\Users\<user name>\AppData\Local\OptimusAnaconda\python`
+    - *macOS users:* `/Users/<user name>/OptimusMiniconda/bin/python`
+  6. Click `OK`. If no errors are displayed,  you can proceed to [Installing and updating workflow](#installing-and-updating-workflow) section.
 
 ### Regular installation
 
@@ -106,7 +114,7 @@ Go to the [Releases](https://github.com/MolecularCartography/Optimus/releases) s
 
 Note, that the procedure described above should be completed only **once**. So, if you get a new version of the workflow in the future, all you'll have to do is just open it with KNIME. As soon as the steps above are accomplished, your environment is ready to run the workflow.
 
-*Possible Python compatibility issues:* If you have several Python installations in your system, please make sure that KNIME detected the correct one. To do this, go to `File => Preferences`, then type "python" in the filter box. You should see two items at the left-hand side of the dialog: `KNIME > Python`. Click at `Python` and check that there're no error messages appear. If there're any, press `Browse...` and navigate to the python executable that was called when installing modules at the 3rd step. If you followed the instructions above precisely, you can get a path to the needed python executable by executing `which python` in Linux/OS X terminal or `where python` in Windows command prompt.
+*Possible Python compatibility issues:* If you have several Python installations in your system, please make sure that KNIME detected the correct one. To do this, go to `File => Preferences`, then type "python" in the filter box. You should see two items at the left-hand side of the dialog: `KNIME > Python`. Click at `Python` and check that there're no error messages appear. If there're any, press `Browse...` and navigate to the python executable that was called when installing modules at the 3rd step. If you followed the instructions above precisely, you can get a path to the needed python executable by executing `which python` in Linux/macOS terminal or `where python` in Windows command prompt.
 
 ### Installing and updating workflow
 
