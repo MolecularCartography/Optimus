@@ -1,8 +1,8 @@
-#Optimus: a workflow for LC-MS feature analysis and spatial mapping
+# Optimus: a workflow for LC-MS feature analysis and spatial mapping
 
 <img src="img/workflow.png"/>
 
-###Table of contents
+### Table of contents
 
 * [Introduction](#introduction)
 * [Who might need this workflow?](#who-needs-this-workflow)
