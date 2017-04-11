@@ -27,7 +27,7 @@
 
 Optimus is a workflow for LC-MS-based untargeted metabolomics. It can be used for feature detection, quantification, filtering (e.g. removing background features), annotation, normalization and, finally, for spatial mapping of detected molecular features in 2D and 3D using the [`ili app](https://github.com/ili-toolbox/ili). Optimus employes the state-of-the-art LC-MS feature detection and quantification algorithms by [OpenMS](http://www.openms.de) which are joined into a handy pipeline with a modern workflow management software [KNIME](https://www.knime.org) with additional features implemented by us.
 
-The workflow is being developed by [Alexandrov Team](http://www.embl.de/research/units/scb/alexandrov/index.html) at EMBL Heidelberg ([contact information](http://www.embl.de/research/units/scb/alexandrov/contact/index.html)).
+The workflow is being developed by [Alexandrov Team](http://www.embl.de/research/units/scb/alexandrov/index.html) at EMBL Heidelberg ([contact information](http://www.embl.de/research/units/scb/alexandrov/contact/index.html)) in collaboration with the [Dorrestein Lab](http://dorresteinlab.ucsd.edu/Dorrestein_Lab/Welcome.html) at UCSD.
 
 * Developer: Ivan Protsyuk
 * Principal investigator: Theodore Alexandrov
