@@ -1,15 +1,15 @@
-#Optimus: a workflow for LC-MS feature analysis and spatial mapping
+# Optimus: a workflow for LC-MS feature analysis and spatial mapping
 
 <img src="img/workflow.png"/>
 
-###Table of contents
+### Table of contents
 
 * [Introduction](#introduction)
 * [Who might need this workflow?](#who-needs-this-workflow)
 * [What it does?](#what-it-does)
 * [System requirements](#system-requirements)
 * [Installation](#installation)
-  * [Express installation (Windows and OS X >= 10.10)](#express-installation--windows-7-or--os-x-1010)
+  * [Express installation (>= Windows 7 or >= macOS 10.10)](#express-installation--windows-7-or--macos-1010)
   * [Regular installation](#regular-installation)
   * [Installing and updating workflow](#installing-and-updating-workflow)
 * [Input](#input)
@@ -27,14 +27,14 @@
 
 Optimus is a workflow for LC-MS-based untargeted metabolomics. It can be used for feature detection, quantification, filtering (e.g. removing background features), annotation, normalization and, finally, for spatial mapping of detected molecular features in 2D and 3D using the [`ili app](https://github.com/ili-toolbox/ili). Optimus employes the state-of-the-art LC-MS feature detection and quantification algorithms by [OpenMS](http://www.openms.de) which are joined into a handy pipeline with a modern workflow management software [KNIME](https://www.knime.org) with additional features implemented by us.
 
-The workflow is being developed by [Alexandrov Team](http://www.embl.de/research/units/scb/alexandrov/index.html) at EMBL Heidelberg ([contact information](http://www.embl.de/research/units/scb/alexandrov/contact/index.html)).
+The workflow is being developed by [Alexandrov Team](http://www.embl.de/research/units/scb/alexandrov/index.html) at EMBL Heidelberg ([contact information](http://www.embl.de/research/units/scb/alexandrov/contact/index.html)) in collaboration with the [Dorrestein Lab](http://dorresteinlab.ucsd.edu/Dorrestein_Lab/Welcome.html) at UCSD.
 
 * Developer: Ivan Protsyuk
 * Principal investigator: Theodore Alexandrov
 
 ## Who needs this workflow?
 
-The workflow was initially developed for LC-MS-based metabolite cartography, but can be useful in almost any study of LC-MS-based untargeted metabolomics. It is developed to be open-source, sharable, and efficient enough to process hundreds of LC-MS runs in reasonable time.
+The workflow was initially developed for LC-MS-based metabolite cartography, but can be useful in almost any study of LC-MS-based untargeted metabolomics. Direct-infusion experimental data is also supported. Optimus is developed to be open-source, sharable, and efficient enough to process hundreds of LC-MS runs in reasonable time.
 
 ## What it does?
 
@@ -61,24 +61,32 @@ The workflow consists of the following consequtive steps:
 
 ## System requirements
 
- * *Operating system*: only 64-bit systems are supported; MS Windows, Linux or Apple OS X.
+ * *Operating system*: only 64-bit systems are supported; MS Windows, Linux or Apple macOS.
  * *RAM*: 2 GB is minimal amount. Generally, it is not enough for analysis of large datasets containing about a hundred or more LC-MS runs. However, it is sufficient for smaller ones. After all, it very much depends on the data itself (instrument, mass resolution, LC run-time, etc) and workflow settings.
  * *CPU*: no special requirements. The more powerful your CPU is, the faster Optimus works. It leverages effectively multicore processors for parallel execution which improves the overall performance dramatically.
  * *Hard drive*: all Optimus components take about 2.5 GB. During the execution Optimus creates temporary files that can occupy up to few times more space than initial dataset. Those files are not deleted automatically to enable iterative execution and re-execution of Optimus. However, there is an option inside the workflow to clean up temporary files.
 
 ## Installation
 
-The workflow is performed by [KNIME Analytics Platform](https://www.knime.org/), an open-source cross-platform general-purpose workflow management system. Before you start using the workflow, you need to install **KNIME** itself, **Python 2.7** (if it's not already installed) and a few additional modules for Python and KNIME. The installation steps are described below. If your computer is running Windows 7 or newer or OS X 10.10 or newer, you can avail express installation scripts described in the section below. Otherwise, you will need to install Optimus dependencies manually as per [Regular installation](#regular-installation) section.
+The workflow is performed by [KNIME Analytics Platform](https://www.knime.org/), an open-source cross-platform general-purpose workflow management system. Before you start using the workflow, you need to install **KNIME** itself, **Python 2.7** (if it's not already installed) and a few additional modules for Python and KNIME. The installation steps are described below. If your computer is running Windows 7 or newer or macOS 10.10 or newer, you can avail express installation scripts described in the section below. Otherwise, you will need to install Optimus dependencies manually as per [Regular installation](#regular-installation) section.
 
-### Express installation (>= Windows 7 or >= OS X 10.10)
+### Express installation (>= Windows 7 or >= macOS 10.10)
 
 Go to the [Releases](https://github.com/MolecularCartography/Optimus/releases) section of this repository, download a zip archive with the latest Optimus version and unpack it to any directory on your computer. Then, follow the instruction for your OS:
 
 **Windows users**: open the `installer` subdirectory and double-click `win_installer.cmd`. It should install KNIME and Python automatically. During the installation, you will be prompted to select KNIME installation directory via a graphical window.
 
-**OS X Users:** open your Terminal, navigate to the `installer` subdirectory and execute `sudo bash mac_installer.sh`.
+**macOS Users:** open your Terminal, navigate to the `installer` subdirectory and execute `sudo bash mac_installer.sh`.
 
-**All**: After the installation has finished, and you can proceed to [Installing and updating workflow](#installing-and-updating-workflow) section.
+**All:** After the installation has finished, make sure that the installed Python distribution is recognized correctly by KNIME:
+  1. Launch KNIME, click `File` menu and select `Preferences`. A `Preferences` dialog should appear.
+  2. In the sidebar of the dialog, expand the `KNIME` item and select its `Python` sub-item.
+  3. Click `Apply`.
+  4. If no error messages are shown in the dialog, Python distribution was recognized by KNIME successfully, and no further actions are needed. Otherwise, proceed with the following steps.
+  5. Click `Browse...` and select file
+    - *Windows users:* `C:\Users\<user name>\AppData\Local\OptimusAnaconda\python`
+    - *macOS users:* `/Users/<user name>/OptimusMiniconda/bin/python`
+  6. Click `OK`. If no errors are displayed,  you can proceed to [Installing and updating workflow](#installing-and-updating-workflow) section.
 
 ### Regular installation
 
@@ -106,7 +114,7 @@ Go to the [Releases](https://github.com/MolecularCartography/Optimus/releases) s
 
 Note, that the procedure described above should be completed only **once**. So, if you get a new version of the workflow in the future, all you'll have to do is just open it with KNIME. As soon as the steps above are accomplished, your environment is ready to run the workflow.
 
-*Possible Python compatibility issues:* If you have several Python installations in your system, please make sure that KNIME detected the correct one. To do this, go to `File => Preferences`, then type "python" in the filter box. You should see two items at the left-hand side of the dialog: `KNIME > Python`. Click at `Python` and check that there're no error messages appear. If there're any, press `Browse...` and navigate to the python executable that was called when installing modules at the 3rd step. If you followed the instructions above precisely, you can get a path to the needed python executable by executing `which python` in Linux/OS X terminal or `where python` in Windows command prompt.
+*Possible Python compatibility issues:* If you have several Python installations in your system, please make sure that KNIME detected the correct one. To do this, go to `File => Preferences`, then type "python" in the filter box. You should see two items at the left-hand side of the dialog: `KNIME > Python`. Click at `Python` and check that there're no error messages appear. If there're any, press `Browse...` and navigate to the python executable that was called when installing modules at the 3rd step. If you followed the instructions above precisely, you can get a path to the needed python executable by executing `which python` in Linux/macOS terminal or `where python` in Windows command prompt.
 
 ### Installing and updating workflow
 
@@ -166,22 +174,22 @@ The third `OptimusViewer_input.db` file contains extracted ion chromatograms (XI
 
 ## KNIME Basics
 
-If you're new to workflow management systems or KNIME in particular, you can find an introductory tutorial on basic features of KNIME [here](./KNIME Basics.md).
+If you're new to workflow management systems or KNIME in particular, you can find an introductory tutorial on basic features of KNIME [here](./KNIME%20Basics.md).
 
 ## Demo
 
 This repository contains real-life samples that you can test the workflow on. They're available in this [archive](./examples/3D/apple_samples.zip) (courtesy of Alexey Melnik, Dorrestein Lab, UCSD). Inside, you'll find a directory called `samples` that contains LC-MS samples in mzXML format ready to be processed with the workflow. Blank samples separated from the normal ones in the `blanks` directory inside `samples`. They can be used to remove background features from your result features set.
-There're also 2 files in the root folder called `coords.csv` and `Rotten_Apple_Model.stl`. You'll need to supply them at the last step of the workflow that is supposed to produce spatial maps for `ili.
+There're also 2 files in the root folder called `coords.csv` and `Rotten_Apple_Model.stl`. You'll need to supply the former one at the last step of the workflow that is supposed to produce spatial maps for `ili.
 
-If you want to check quickly, what are actually the results of the workflow, without diving into KNIME and installing everything, you can find the needed file in the `results` folder in the archive. It contains file `features_mapping.csv` which is a spreadsheet containing a table with intensities of different features detected in different runs. This file can be visualized in &#96;ili along with `Rotten_Apple_Model.stl`. You can simply drag&drop both of them to the `ili window.
+If you want to check quickly, what are actually the results of the workflow, without diving into KNIME and installing everything, you can find the needed file in the `results` folder in the archive. It contains file `features_mapping.csv` which is a spreadsheet containing a table with intensities of different features detected in different runs. This file can be visualized in &#96;ili along with `Rotten_Apple_Model.stl`. You can simply drag&drop both of them to the [&#96;ili](http://ili.embl.de) window.
 
-Below, you can find an example of a spatial map obtained from `ili for a feature that is localized mainly in the vicinity of rot on the apple.
+Below, you can find an example of a spatial map obtained from &#96;ili for a feature that is localized mainly in the vicinity of rot on the apple.
 
 <img src="img/demo_screenshot.png"/>
 
 ## Advanced use-cases
 
-The workflow has many capabilities that you can discover in the documentation embedded into it. Just click on any node, and the description of its role and its parameters will show up in the banner at the right-hand side of the KNIME window. Different nodes don't depend on each other, so you can experiment with different settings and track changes of the workflow output.
+The workflow has many capabilities that you can discover in the documentation embedded into it. Click on any node, and the description of its role and its parameters will show up in the banner at the right-hand side of the KNIME window. Different nodes don't depend on each other, so you can experiment with different settings and track changes of the workflow output.
 
 ## Troubleshooting
 
@@ -205,7 +213,7 @@ Some errors can appear in the application log that interrupt workflow execution.
   </tr>
     <td>A computer runs out of hard drive space when Optimus is running</td>
     <td>Temporary files produced by Optimus are too large.</td>
-    <td>Cancel the workflow execution. Either free up some space or use space from another hard disk drive for temporary files as follows. Make sure an additional hard drive is connected. Open KNIME preferences dialog and in the ‚ÄúKNIME‚Äù section set ‚ÄúDirectory for temporary files‚Äù to be located in a hard drive with more free space available. Restart KNIME to apply the new settings.</td>
+    <td>Cancel the workflow execution. Either free up some space or use space from another hard disk drive for temporary files as follows. Make sure an additional hard drive is connected. Open KNIME preferences dialog and in the ìKNIMEî section set ìDirectory for temporary filesî to be located in a hard drive with more free space available. Restart KNIME to apply the new settings.</td>
   </tr>
   <tr>
     <td><code>ValueError: Input list of LC-MS features is empty. Try to change settings of feature detection or your filters.</code></td>
