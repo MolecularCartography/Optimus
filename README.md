@@ -27,14 +27,14 @@
 
 Optimus is a workflow for LC-MS-based untargeted metabolomics. It can be used for feature detection, quantification, filtering (e.g. removing background features), annotation, normalization and, finally, for spatial mapping of detected molecular features in 2D and 3D using the [`ili app](https://github.com/ili-toolbox/ili). Optimus employes the state-of-the-art LC-MS feature detection and quantification algorithms by [OpenMS](http://www.openms.de) which are joined into a handy pipeline with a modern workflow management software [KNIME](https://www.knime.org) with additional features implemented by us.
 
-The workflow is being developed by [Alexandrov Team](http://www.embl.de/research/units/scb/alexandrov/index.html) at EMBL Heidelberg ([contact information](http://www.embl.de/research/units/scb/alexandrov/contact/index.html)).
+The workflow is being developed by [Alexandrov Team](http://www.embl.de/research/units/scb/alexandrov/index.html) at EMBL Heidelberg ([contact information](http://www.embl.de/research/units/scb/alexandrov/contact/index.html)) in collaboration with the [Dorrestein Lab](http://dorresteinlab.ucsd.edu/Dorrestein_Lab/Welcome.html) at UCSD.
 
 * Developer: Ivan Protsyuk
 * Principal investigator: Theodore Alexandrov
 
 ## Who needs this workflow?
 
-The workflow was initially developed for LC-MS-based metabolite cartography, but can be useful in almost any study of LC-MS-based untargeted metabolomics. It is developed to be open-source, sharable, and efficient enough to process hundreds of LC-MS runs in reasonable time.
+The workflow was initially developed for LC-MS-based metabolite cartography, but can be useful in almost any study of LC-MS-based untargeted metabolomics. Direct-infusion experimental data is also supported. Optimus is developed to be open-source, sharable, and efficient enough to process hundreds of LC-MS runs in reasonable time.
 
 ## What it does?
 
@@ -174,22 +174,22 @@ The third `OptimusViewer_input.db` file contains extracted ion chromatograms (XI
 
 ## KNIME Basics
 
-If you're new to workflow management systems or KNIME in particular, you can find an introductory tutorial on basic features of KNIME [here](./KNIME Basics.md).
+If you're new to workflow management systems or KNIME in particular, you can find an introductory tutorial on basic features of KNIME [here](./KNIME%20Basics.md).
 
 ## Demo
 
 This repository contains real-life samples that you can test the workflow on. They're available in this [archive](./examples/3D/apple_samples.zip) (courtesy of Alexey Melnik, Dorrestein Lab, UCSD). Inside, you'll find a directory called `samples` that contains LC-MS samples in mzXML format ready to be processed with the workflow. Blank samples separated from the normal ones in the `blanks` directory inside `samples`. They can be used to remove background features from your result features set.
-There're also 2 files in the root folder called `coords.csv` and `Rotten_Apple_Model.stl`. You'll need to supply them at the last step of the workflow that is supposed to produce spatial maps for `ili.
+There're also 2 files in the root folder called `coords.csv` and `Rotten_Apple_Model.stl`. You'll need to supply the former one at the last step of the workflow that is supposed to produce spatial maps for `ili.
 
-If you want to check quickly, what are actually the results of the workflow, without diving into KNIME and installing everything, you can find the needed file in the `results` folder in the archive. It contains file `features_mapping.csv` which is a spreadsheet containing a table with intensities of different features detected in different runs. This file can be visualized in &#96;ili along with `Rotten_Apple_Model.stl`. You can simply drag&drop both of them to the `ili window.
+If you want to check quickly, what are actually the results of the workflow, without diving into KNIME and installing everything, you can find the needed file in the `results` folder in the archive. It contains file `features_mapping.csv` which is a spreadsheet containing a table with intensities of different features detected in different runs. This file can be visualized in &#96;ili along with `Rotten_Apple_Model.stl`. You can simply drag&drop both of them to the [&#96;ili](http://ili.embl.de) window.
 
-Below, you can find an example of a spatial map obtained from `ili for a feature that is localized mainly in the vicinity of rot on the apple.
+Below, you can find an example of a spatial map obtained from &#96;ili for a feature that is localized mainly in the vicinity of rot on the apple.
 
 <img src="img/demo_screenshot.png"/>
 
 ## Advanced use-cases
 
-The workflow has many capabilities that you can discover in the documentation embedded into it. Just click on any node, and the description of its role and its parameters will show up in the banner at the right-hand side of the KNIME window. Different nodes don't depend on each other, so you can experiment with different settings and track changes of the workflow output.
+The workflow has many capabilities that you can discover in the documentation embedded into it. Click on any node, and the description of its role and its parameters will show up in the banner at the right-hand side of the KNIME window. Different nodes don't depend on each other, so you can experiment with different settings and track changes of the workflow output.
 
 ## Troubleshooting
 
@@ -213,7 +213,7 @@ Some errors can appear in the application log that interrupt workflow execution.
   </tr>
     <td>A computer runs out of hard drive space when Optimus is running</td>
     <td>Temporary files produced by Optimus are too large.</td>
-    <td>Cancel the workflow execution. Either free up some space or use space from another hard disk drive for temporary files as follows. Make sure an additional hard drive is connected. Open KNIME preferences dialog and in the ‚ÄúKNIME‚Äù section set ‚ÄúDirectory for temporary files‚Äù to be located in a hard drive with more free space available. Restart KNIME to apply the new settings.</td>
+    <td>Cancel the workflow execution. Either free up some space or use space from another hard disk drive for temporary files as follows. Make sure an additional hard drive is connected. Open KNIME preferences dialog and in the ìKNIMEî section set ìDirectory for temporary filesî to be located in a hard drive with more free space available. Restart KNIME to apply the new settings.</td>
   </tr>
   <tr>
     <td><code>ValueError: Input list of LC-MS features is empty. Try to change settings of feature detection or your filters.</code></td>
