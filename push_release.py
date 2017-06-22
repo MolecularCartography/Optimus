@@ -1,10 +1,8 @@
 from zipfile import ZipFile
-from StringIO import StringIO
 import json
 import os
 import re
 import requests
-import sys
 
 
 if not 'OPTIMUS_GH_RELEASE_AUTH' in os.environ:
