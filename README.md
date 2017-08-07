@@ -20,6 +20,7 @@
 * [KNIME Basics](#knime-basics)
 * [Demo](#demo)
 * [Advanced use-cases](#advanced-use-cases)
+* [Publications](#publications)
 * [Troubleshooting](#troubleshooting)
 * [License](#license)
 
@@ -191,6 +192,11 @@ Below, you can find an example of a spatial map obtained from &#96;ili for a fea
 
 The workflow has many capabilities that you can discover in the documentation embedded into it. Click on any node, and the description of its role and its parameters will show up in the banner at the right-hand side of the KNIME window. Different nodes don't depend on each other, so you can experiment with different settings and track changes of the workflow output.
 
+## Publications
+
+ * Alexey V. Melnik, Pieter C. Dorrestein, Ricardo R. da Silva, Embriette R. Hyde, Alexander A. Aksenov, Fernando Vargas, Amina Bouslimani, Ivan Protsyuk, Alan Jarmusch, Anupriya Tripathi, Theodore Alexandrov, and Rob Knight. *Coupling targeted and untargeted mass spectrometry for metabolome-microbiome-wide association studies of human fecal samples.* Analytical Chemistry, 2017. [doi](http://dx.doi.org/10.1021/acs.analchem.7b01381)
+ * Daniel Petras, Louis-FÃ©lix Nothias, Robert A. Quinn, Theodore Alexandrov, Nuno Bandeira, Amina Bouslimani, Gabriel Castro-FalcÃ³n, Liangyu Chen, Tam Dang, Dimitrios J. Floros, Vivian Hook, Neha Garg, Nicole Hoffner, Yike Jiang, Clifford A. Kapono, Irina Koester, Rob Knight, Christopher A. Leber, Tie-Jun Ling, Tal Luzzatto-Knaan, Laura-Isobel McCall, Aaron P. McGrath, Michael J. Meehan, Jonathan K. Merritt, Robert H. Mills, Jamie Morton, Sonia Podvin, Ivan Protsyuk, Trevor Purdy, Kendall Satterfield, Stephen Searles, Sahil Shah, Sarah Shires, Dana Steffen, Margot White, Jelena Todoric, Robert Tuttle, Aneta Wojnicz, Valerie Sapp, Fernando Vargas, Jin Yang, Chao Zhang, and Pieter C. Dorrestein. *Mass Spectrometry-Based Visualization of Molecules Associated with Human Habitats.* Analytical Chemistry, 2016. [doi](http://dx.doi.org/10.1021/acs.analchem.6b03456)
+
 ## Troubleshooting
 
 Some errors can appear in the application log that interrupt workflow execution. A node caused an error will be the left-most node with a red circle in its right side. In addition, you should see error output in KNIME Console. Below, you can find solutions for some common issues.
@@ -213,7 +219,7 @@ Some errors can appear in the application log that interrupt workflow execution.
   </tr>
     <td>A computer runs out of hard drive space when Optimus is running</td>
     <td>Temporary files produced by Optimus are too large.</td>
-    <td>Cancel the workflow execution. Either free up some space or use space from another hard disk drive for temporary files as follows. Make sure an additional hard drive is connected. Open KNIME preferences dialog and in the “KNIME” section set “Directory for temporary files” to be located in a hard drive with more free space available. Restart KNIME to apply the new settings.</td>
+    <td>Cancel the workflow execution. Either free up some space or use space from another hard disk drive for temporary files as follows. Make sure an additional hard drive is connected. Open KNIME preferences dialog and in the Â“KNIMEÂ” section set Â“Directory for temporary filesÂ” to be located in a hard drive with more free space available. Restart KNIME to apply the new settings.</td>
   </tr>
   <tr>
     <td><code>ValueError: Input list of LC-MS features is empty. Try to change settings of feature detection or your filters.</code></td>
