@@ -1,3 +1,5 @@
+#!/usr/bin/python
+
 from zipfile import ZipFile
 import json
 import os
