@@ -152,10 +152,10 @@ The first stage of Optimus execution is the creation of a file with some details
 2. Do a right click on the `Read LC-MS runs` node and select `Configure...`. A dialog for input file selection should show up.
 3. Press `Clear`, then press `Add` and select files with your samples and press `OK`.
 4. Create the [stub file](#important-stub-input-file).
-5. Select the stub file as input for nodes `Read group mapping`, `Read list of internal standards` and `Read mz-RT list`.
-6. Right-click on the `Save template of experimental design` node and select `Configure...`. A dialog for output file selection should show up.
-7. Click `Browse...` and specify where a template file with your experimental design will be stored. It's recommended to keep it in the same directory where you LC-MS data is located.
-8. Right-click on the `Save template of experimental design` node and select `Execute`. The upper part of the workflow should start execution, and the file with experimental design will be created. The file can be then edited manually according to your experimental design as described [above](#experimental-design-file).
+5. Select the stub file as input for nodes `Read group mapping`, `Read list of internal standards` and `Read annotation source`.
+6. Right-click on `Where to save template of experimental design` and select `Configure...`. A dialog for output directory selection should show up.
+7. Click `Browse...` and specify where a template file with your experimental design will be stored. It's recommended to keep it in the same directory where you LC-MS data is located. Click `OK`.
+8. Right-click on the `Generate template of experimental design` node and select `Execute`. The upper part of the workflow should start execution, and the file with experimental design will be created. The file can be then edited manually according to your experimental design as described [above](#experimental-design-file).
 9. Right-click on the `Read experimental design` node and select `Configure...`. A file selection dialog should appear.
 10. Click `Browse...` and select the experimental design file.
 11. Make sure that `read column headers` is checked, `read row IDs` is not checked, and `column delimiter` is set to `,` (comma). Click `OK`.
@@ -219,7 +219,7 @@ Some errors can appear in the application log that interrupt workflow execution.
   </tr>
     <td>A computer runs out of hard drive space when Optimus is running</td>
     <td>Temporary files produced by Optimus are too large.</td>
-    <td>Cancel the workflow execution. Either free up some space or use space from another hard disk drive for temporary files as follows. Make sure an additional hard drive is connected. Open KNIME preferences dialog and in the KNIME section set Directory for temporary files to be located in a hard drive with more free space available. Restart KNIME to apply the new settings.</td>
+    <td>Cancel the workflow execution. Either free up some space or use space from another hard disk drive for temporary files as follows. Make sure an additional hard drive is connected. Open KNIME preferences dialog and in the `KNIME` section set `Directory for temporary files` to be located in a hard drive with more free space available. Restart KNIME to apply the new settings.</td>
   </tr>
   <tr>
     <td><code>ValueError: Input list of LC-MS features is empty. Try to change settings of feature detection or your filters.</code></td>
